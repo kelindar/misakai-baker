@@ -31,7 +31,7 @@ namespace Baker
         /// <summary>
         /// Constructs a new instance of a processor.
         /// </summary>
-        public ProcessorBase() : base(1)
+        public ProcessorBase() : base(32)
         {
             this.Executor = this.Process;
         }
