@@ -12,11 +12,12 @@ namespace Baker.View
     public interface IViewTemplate
     {
         /// <summary>
-        /// Executes the template and returns a content.
+        /// Gets the name of the template
         /// </summary>
-        /// <param name="model">The model to execute the template on.</param>
-        /// <returns>The output content that have been generated.</returns>
-        AssetContent Execute(AssetHeader model);
+        string Name
+        {
+            get;
+        }
     }
 
 

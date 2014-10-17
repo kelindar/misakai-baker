@@ -42,7 +42,7 @@ namespace Baker
         /// <summary>
         /// Actually writes the file on disk, at the specified location.
         /// </summary>
-        public void Write()
+        public void Export()
         {
             try
             {
@@ -52,7 +52,7 @@ namespace Baker
 
                 // Create the destination
                 var destination = new FileInfo(
-                    Path.Combine(this.VirtualDirectory.FullName, "_site",this.RelativeName)
+                    Path.Combine(this.VirtualDirectory.FullName, this.Project.Configuration.Destination,this.RelativeName)
                     );
 
                 // Make sure we have the directory

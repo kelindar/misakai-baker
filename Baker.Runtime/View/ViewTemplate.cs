@@ -9,15 +9,25 @@ namespace Baker.View
     /// <summary>
     /// Represents an asset template.
     /// </summary>
-    public abstract class ViewTemplate : IViewTemplate
+    public class ViewTemplate : IViewTemplate
     {
         /// <summary>
-        /// Executes the template and returns a content.
+        /// Constructs a new view template.
         /// </summary>
-        /// <param name="model">The model to execute the template on.</param>
-        /// <returns>The output content that have been generated.</returns>
-        public abstract AssetContent Execute(AssetHeader model);
+        /// <param name="name">The name of the template.</param>
+        public ViewTemplate(string name)
+        {
+            this.Name = name;
+        }
 
+        /// <summary>
+        /// Gets the name of the template
+        /// </summary>
+        public string Name
+        {
+            get;
+            private set;
+        }
     }
 
 }

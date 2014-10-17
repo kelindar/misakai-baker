@@ -59,6 +59,7 @@
     <Compile Include="Execution\AssetHeader.cs" />
     <Compile Include="Processors\Layout\LayoutProcessor.cs" />
     <Compile Include="Processors\Razor\RazorViewEngine.cs" />
+    <Compile Include="Site\SiteProject.Bake.cs" />
     <Compile Include="Text\Yaml\YamlExtensions.cs" />
     <Compile Include="Text\Yaml\YamlDoc.cs" />
     <Compile Include="Text\Yaml\YamlDynamic.cs" />

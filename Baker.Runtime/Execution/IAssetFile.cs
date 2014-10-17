@@ -72,7 +72,7 @@ namespace Baker
         /// <summary>
         /// Actually writes the file on disk, at the specified location.
         /// </summary>
-        void Write();
+        void Export();
     }
 
     /// <summary>

@@ -18,14 +18,7 @@ namespace Baker.View
         /// <param name="input">The input asset.</param>
         /// <param name="valueFactory">A function that produces the value that should be added to the cache in case it does not already exist.</param>
         /// <returns></returns>
-        IViewTemplate RegisterTemplate(IAssetFile input);
-
-        /// <summary>
-        /// Gets a template for a particular layout.
-        /// </summary>
-        /// <param name="layout">The input layout name.</param>
-        /// <returns>The template</returns>
-        IViewTemplate GetTemplate(string layout);
+        IViewTemplate Update(IAssetFile input);
 
         /// <summary>
         /// Renders a single page using the input asset and a layout.

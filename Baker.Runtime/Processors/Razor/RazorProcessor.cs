@@ -28,7 +28,7 @@ namespace Baker.Processors
             try
             {
                 // Register the template in the viewengine
-                return input.Project.ViewEngine.RegisterTemplate(input);
+                return input.Project.ViewEngine.Update(input);
             }
             catch (Exception ex)
             {

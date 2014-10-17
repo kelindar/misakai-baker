@@ -13,7 +13,7 @@ namespace Baker
     /// <summary>
     /// Represents a website project.
     /// </summary>
-    public sealed partial class SiteProject
+    public sealed partial class SiteProject : IDisposable
     {
         /// <summary>
         /// Gets the directory of this project.
@@ -51,6 +51,35 @@ namespace Baker
             private set;
         }
 
+
+        #region IDisposable Members
+        /// <summary>
+        /// Cleans up the resources.
+        /// </summary>
+        /// <param name="disposing">Whether we are disposing or finalizing.</param>
+        public void Dispose(bool disposing)
+        {
+
+        }
+
+        /// <summary>
+        /// Cleans up the resources.
+        /// </summary>
+        ~SiteProject()
+        {
+            this.Dispose(false);
+        }
+
+        /// <summary>
+        /// Cleans up the resources.
+        /// </summary>
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            this.Dispose(true);
+        }
+
+        #endregion
     }
 
 

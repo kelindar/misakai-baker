@@ -6,6 +6,18 @@
     <link rel="stylesheet" href="css/bootstrap-theme.css">
 </head>
 <body>
-    @RenderBody()
+    <div class="container">
+        @RenderBody()
+        @Include("well")
+
+        @if (IsSectionDefined("Well"))
+        {
+            <section>
+                @RenderSection("Well")
+            </section>
+        }
+    </div>
+    
+
 </body>
 </html>

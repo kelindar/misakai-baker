@@ -69,7 +69,7 @@ namespace Baker
         /// Writes the files to the file system.
         /// </summary>
         /// <param name="input">The collection of files to write.</param>
-        public static void Write(this IEnumerable<IAssetFile> input)
+        public static void Export(this IEnumerable<IAssetFile> input)
         {
             // We actually need to enumerate now
             foreach (var file in input)
@@ -80,7 +80,7 @@ namespace Baker
                     return;
 
                 // Writes adjusted
-                output.Write();
+                output.Export();
             }
         }
 
@@ -88,7 +88,7 @@ namespace Baker
         /// Writes the files to the file system.
         /// </summary>
         /// <param name="input">The collection of files to write.</param>
-        public static void Write(this IEnumerable<IViewTemplate> input)
+        public static void Export(this IEnumerable<IViewTemplate> input)
         {
             // We actually need to enumerate now
             foreach (var file in input)

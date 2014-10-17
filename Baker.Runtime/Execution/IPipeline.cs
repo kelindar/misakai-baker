@@ -106,16 +106,16 @@ namespace Baker
         /// <summary>Runs the pipeline and returns an enumerable over the results.</summary>
         /// <param name="source">The source data to be processed by the pipeline.</param>
         /// <returns>An enumerable of the results of the pipeline.</returns>
-        public IEnumerable<TOutput> Process(IEnumerable<TInput> source)
+        public IEnumerable<TOutput> On(IEnumerable<TInput> source)
         {
-            return Process(source, new CancellationToken());
+            return On(source, new CancellationToken());
         }
 
         /// <summary>Runs the pipeline and returns an enumerable over the results.</summary>
         /// <param name="source">The source data to be processed by the pipeline.</param>
         /// <param name="cancellationToken">The cancellation token used to signal cancellation of the pipelining.</param>
         /// <returns>An enumerable of the results of the pipeline.</returns>
-        public IEnumerable<TOutput> Process(IEnumerable<TInput> source, CancellationToken cancellationToken)
+        public IEnumerable<TOutput> On(IEnumerable<TInput> source, CancellationToken cancellationToken)
         {
             // Validate arguments
             if (source == null) throw new ArgumentNullException("source");
@@ -193,7 +193,7 @@ namespace Baker
                     MaxDegreeOfParallelism = DegreeOfParallelism,
                     TaskScheduler = Pipeline.Scheduler
                 };
-                Parallel.ForEach(_beginningPipeline.Process(source, cancellationToken), options, item => output.Add(_lastStageFunc(item)));
+                Parallel.ForEach(_beginningPipeline.On(source, cancellationToken), options, item => output.Add(_lastStageFunc(item)));
             }
         }
     }

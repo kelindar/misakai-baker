@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using RazorEngine;
 using RazorEngine.Templating;
@@ -14,12 +16,12 @@ namespace Baker.View
     /// </summary>
     public class RazorViewEngine: IViewEngine
     {
-        /// <summary>
-        /// The service for templates.
-        /// </summary>
-        private readonly TemplateService Service 
-            = new TemplateService();
 
+        /// <summary>
+        /// Resolves the template content.
+        /// </summary>
+        private readonly ConcurrentDictionary<string, string> Cache =
+            new ConcurrentDictionary<string, string>();
 
         /// <summary>
         /// Gets or adds a view from the cache.
@@ -27,30 +29,20 @@ namespace Baker.View
         /// <param name="input">The input asset.</param>
         /// <param name="valueFactory">A function that produces the value that should be added to the cache in case it does not already exist.</param>
         /// <returns></returns>
-        public IViewTemplate RegisterTemplate(IAssetFile input)
+        public IViewTemplate Update(IAssetFile input)
         {
             // Prepare the cache key
             var cacheName = input
                 .Name
                 .Replace(input.Extension, String.Empty);
-            
-            // Compile the input and use Name as the cache key
-            this.Service.Compile(
-                input.Content.AsString(), 
-                typeof(AssetHeader), 
-                cacheName);
+            var content = input.Content.AsString();
 
-            return new RazorTemplate(cacheName, this.Service);
-        }
+            // Update the map
+            Cache.AddOrUpdate(cacheName,
+                content, (k, v) => content
+                );
 
-        /// <summary>
-        /// Gets a template for a particular layout.
-        /// </summary>
-        /// <param name="layout">The input layout name.</param>
-        /// <returns>The template</returns>
-        public IViewTemplate GetTemplate(string layout)
-        {
-            return new RazorTemplate(layout, this.Service);
+            return new ViewTemplate(cacheName);
         }
 
         /// <summary>
@@ -62,48 +54,51 @@ namespace Baker.View
         public AssetContent RenderPage(IAssetFile input, string layout)
         {
             // Create the template with the specified layout
-            var template = "@{Layout=\"" + layout + "\";}" +
+            var headers = input.Meta;
+            var content = "@{Layout=\"" + layout + "\";}" +
                 input.Content.AsString();
 
-            // Parse without caching
-            return AssetContent.FromString(
-                this.Service.Parse(template, input.Meta, null, null)
-                );
+            // Using a new scope, avoiding state sharing problems that way
+            using (var service = new TemplateService())
+            {
+                // Process the content
+                this.ProcessContent(content, service, headers);
+
+                // Parse without caching
+                return AssetContent.FromString(
+                    service.Parse(content, headers, null, null)
+                    );
+            }
+        }
+
+        private void ProcessContent(string content, TemplateService service, dynamic model)
+        {
+            const string layoutPattern = @"@\{Layout=""([_a-zA-Z]*)"";\}";
+            const string includePattern = @"@Include\(""([_a-zA-Z]*)""\)";
+
+            // recursively process the Layout
+            foreach (Match match in Regex.Matches(content, layoutPattern, RegexOptions.IgnoreCase))
+                ProcessSubContent(match, service, model);
+
+            // recursively process the @Includes
+            foreach (Match match in Regex.Matches(content, includePattern, RegexOptions.IgnoreCase))
+                ProcessSubContent(match, service, model);
+        }
+
+        private void ProcessSubContent(Match match, TemplateService service, dynamic model)
+        {
+            var subName = match.Groups[1].Value; 
+            string subContent;
+            if (this.Cache.TryGetValue(subName, out subContent))
+            {
+                // Recursively process it and add to the service
+                ProcessContent(subContent, service, model);
+                service.GetTemplate(subContent, model, subName);
+            }
         }
 
     }
 
 
 
-    /// <summary>
-    /// Represents an asset template.
-    /// </summary>
-    public class RazorTemplate : ViewTemplate
-    {
-        private readonly string Name;
-        private readonly TemplateService Service;
-
-        /// <summary>
-        /// Constructs a template.
-        /// </summary>
-        public RazorTemplate(string cacheName, TemplateService service)
-        {
-            this.Name = cacheName;
-            this.Service = service;
-        }
-
-        /// <summary>
-        /// Executes the template and returns a content.
-        /// </summary>
-        /// <param name="model">The model to execute the template on.</param>
-        /// <returns>The output content that have been generated.</returns>
-        public override AssetContent Execute(AssetHeader model)
-        {
-            // Run the template and return the content
-            return AssetContent.FromString(
-                this.Service.Run(this.Name, model, null)
-                );
-        }
-
-    }
 }

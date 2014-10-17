@@ -41,6 +41,7 @@ namespace Baker.Providers
             return Directory
                 .EnumerateFiles(this.Path.FullName, "*", SearchOption.AllDirectories)
                 .Select(f => new AssetInputFile(project, new FileInfo(f)))
+                .Except(project.Configuration.Destination + "*") 
                 .ToList();
         }
 
