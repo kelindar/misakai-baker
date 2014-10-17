@@ -1,0 +1,6 @@
+destination: _site
+exclude: 
+server:
+  host: localhost
+  port: 8080
+  baseurl: 

@@ -15,10 +15,10 @@ namespace Baker.Providers
         /// <summary>
         /// Constructs a new provider.
         /// </summary>
-        /// <param name="path">The root path.</param>
-        public DiskAssetProvider(string path)
+        /// <param name="directory">The root directory.</param>
+        public DiskAssetProvider(DirectoryInfo directory)
         {
-            this.Path = new DirectoryInfo(path);
+            this.Path = directory;
         }
 
         /// <summary>

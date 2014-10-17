@@ -36,6 +36,9 @@
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
+    <Reference Include="Spike.Runtime">
+      <HintPath>..\packages\SpikeEngine.2.5.5394\lib\Spike.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -55,6 +58,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Site\SiteProject.Load.cs" />
+    <Compile Include="Site\SiteProject.cs" />
+    <Compile Include="Site\SiteConfig.cs" />
+    <Compile Include="Text\Yaml\YamlObject.cs" />
     <Compile Include="Processors\Css\CssMinifier.cs" />
     <Compile Include="Processors\Html\HtmlMinifier.cs" />
     <Compile Include="Processors\JavaScript\JavaScriptMinifier.cs" />
@@ -202,7 +209,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

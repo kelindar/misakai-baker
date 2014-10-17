@@ -12,8 +12,11 @@ namespace Baker
     {
         static void Main(string[] args)
         {
-           
-            var files = new DiskAssetProvider(@"..\..\..\Test\")
+            var project = SiteProject.FromDisk(@"..\..\..\Test\");
+
+
+            var files = project
+                .Provider
                 .Fetch()
                 .Except("_site*");
 
@@ -37,13 +40,6 @@ namespace Baker
             PngOptimizer.Default
                 .Process(files.Only("*.png"))
                 .Write();
-
-            //files.TryProcess<IAssetTemplate>("*.cshtml", RazorProcessor.Default);
-            //files.TryProcess<IAssetFile>("*.md", MarkdownProcessor.Default);
-            //files.TryProcess<IAssetFile>("*.css", CssMinifier.Default);
-            //files.TryProcess<IAssetFile>("*.js", JavaScriptMinifier.Default);
-
- 
 
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();

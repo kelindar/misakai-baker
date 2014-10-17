@@ -8,7 +8,7 @@ Planned Features
 ================
 * Markdown support
 * Razor support for layout
-* Jekryll-like headers for the model
+* Jekyll-like headers for the model
 * HTML minifier
 * Css minifier
 * Css unifier (multiple to single)
