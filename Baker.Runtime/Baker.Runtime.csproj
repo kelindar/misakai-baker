@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\AssetHeader.cs" />
+    <Compile Include="Processors\FileOptimizer.cs" />
     <Compile Include="Processors\FileCopier.cs" />
     <Compile Include="Processors\LayoutProcessor.cs" />
     <Compile Include="View\RazorViewEngine.cs" />

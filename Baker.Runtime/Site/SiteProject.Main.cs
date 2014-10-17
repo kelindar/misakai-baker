@@ -18,6 +18,11 @@ namespace Baker
     /// </summary>
     public sealed partial class SiteProject
     {
+        // Default extensions to exclude from being copied to the content
+        private readonly string[] DefaultExclude = new string[]{
+            "*.tmp", "*.cshtml", "*.md", "*_config.yaml", "*~*"
+        };
+
         /// <summary>
         /// The main pipeline for project processing.
         /// </summary>
@@ -37,25 +42,11 @@ namespace Baker
                 .On(files.Only("*.md"))
                 .Export();
 
-            // Minify HTML
-            HtmlMinifier.Default
-                .On(files.Only("*.htm", "*.html"))
+            // Optimize & copy everything
+            FileOptimizer.Default
+                .On(files.Except(DefaultExclude))
                 .Export();
 
-            // Minify CSS
-            CssMinifier.Default
-                .On(files.Only("*.css"))
-                .Export();
-
-            // Minify JS
-            JavaScriptMinifier.Default
-                .On(files.Only("*.js"))
-                .Export();
-
-            // Optimize PNG
-            PngOptimizer.Default
-                .On(files.Only("*.png"))
-                .Export();
         }
 
         /// <summary>
@@ -82,7 +73,7 @@ namespace Baker
 
             // Copy everything
             FileCopier.Default
-                .On(files.Except("*.tmp", "*.cshtml", "*.md", "*_config.yaml", "*~*"))
+                .On(files.Except(DefaultExclude))
                 .Export();
 
             // Last update changed
