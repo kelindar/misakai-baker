@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Processors\Css\CssMinifier.cs" />
+    <Compile Include="Processors\Html\HtmlMinifier.cs" />
     <Compile Include="Processors\JavaScript\JavaScriptMinifier.cs" />
     <Compile Include="Text\Minifiers\CssEncoderFallback.cs" />
     <Compile Include="Text\Minifiers\Css\CssColorName.cs" />
@@ -55,6 +56,11 @@
     <Compile Include="Text\Minifiers\Css\CssSettings.cs" />
     <Compile Include="Text\Minifiers\Css\CssStrings.Designer.cs" />
     <Compile Include="Text\Minifiers\Css\CssToken.cs" />
+    <Compile Include="Text\Minifiers\Html\HtmlCompressor.cs" />
+    <Compile Include="Text\Minifiers\Html\HtmlCompressorStatistics.cs" />
+    <Compile Include="Text\Minifiers\Html\HtmlContentCompressor.cs" />
+    <Compile Include="Text\Minifiers\Html\HtmlMetrics.cs" />
+    <Compile Include="Text\Minifiers\Html\ICompressor.cs" />
     <Compile Include="Text\Minifiers\JavaScript\IJsNameDeclaration.cs" />
     <Compile Include="Text\Minifiers\JavaScript\IJsNameReference.cs" />
     <Compile Include="Text\Minifiers\JavaScript\IJsSourceMap.cs" />

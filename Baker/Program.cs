@@ -19,6 +19,7 @@ namespace Baker
 
             
             MarkdownProcessor.Default
+                .Next(HtmlMinifier.Default)
                 .Process(files.Filter("*.md"))
                 .Write();
 
