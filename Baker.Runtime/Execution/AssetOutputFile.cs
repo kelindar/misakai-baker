@@ -76,7 +76,7 @@ namespace Baker
 
         #region Static Members
 
-        public static AssetOutputFile FromString(IAssetFile from, string content, string extension = null)
+        public static AssetOutputFile Create(IAssetFile from, string content, string extension = null)
         {
             var name = extension == null
                 ? new FileInfo(from.FullName)
@@ -89,7 +89,7 @@ namespace Baker
                 );
         }
 
-        public static AssetOutputFile FromBytes(IAssetFile from, byte[] content, string extension = null)
+        public static AssetOutputFile Create(IAssetFile from, byte[] content, string extension = null)
         {
             var name = extension == null
                 ? new FileInfo(from.FullName)
@@ -101,6 +101,21 @@ namespace Baker
                 content
                 );
         }
+
+        public static AssetOutputFile Create(IAssetFile from, MemoryStream content, string extension = null)
+        {
+            var name = extension == null
+                ? new FileInfo(from.FullName)
+                : new FileInfo(Path.ChangeExtension(from.FullName, extension));
+
+            return new AssetOutputFile(
+                name,
+                from.VirtualDirectory,
+                content.ToArray()
+                );
+        }
+
+
         #endregion
 
     }

@@ -30,12 +30,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nQuant.Core">
+      <HintPath>..\packages\nQuant.1.0.3\Lib\net40\nQuant.Core.dll</HintPath>
+    </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
@@ -54,6 +58,7 @@
     <Compile Include="Processors\Css\CssMinifier.cs" />
     <Compile Include="Processors\Html\HtmlMinifier.cs" />
     <Compile Include="Processors\JavaScript\JavaScriptMinifier.cs" />
+    <Compile Include="Processors\Images\PngOptimizer.cs" />
     <Compile Include="Text\Minifiers\CssEncoderFallback.cs" />
     <Compile Include="Text\Minifiers\Css\CssColorName.cs" />
     <Compile Include="Text\Minifiers\Css\CssErrorCode.cs" />

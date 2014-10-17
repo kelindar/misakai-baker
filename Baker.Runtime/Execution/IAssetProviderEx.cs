@@ -18,13 +18,13 @@ namespace Baker
         /// <param name="input">The input collection.</param>
         /// <param name="pattern">The pattern for filtering.</param>
         /// <returns>The filtered collection</returns>
-        public static IEnumerable<IAssetFile> Filter(this IEnumerable<IAssetFile> input, string pattern)
+        public static IEnumerable<IAssetFile> Only(this IEnumerable<IAssetFile> input, string pattern)
         {
             // Wildcard to regex conversion
             var regex = "^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".")+ "$";
 
             // Execute the form with regex
-            return Filter(input, new Regex(regex, RegexOptions.IgnoreCase));
+            return Only(input, new Regex(regex, RegexOptions.IgnoreCase));
         }
 
         /// <summary>
@@ -33,9 +33,35 @@ namespace Baker
         /// <param name="input">The input collection.</param>
         /// <param name="pattern">The pattern for filtering.</param>
         /// <returns>The filtered collection</returns>
-        public static IEnumerable<IAssetFile> Filter(this IEnumerable<IAssetFile> input, Regex regex)
+        public static IEnumerable<IAssetFile> Only(this IEnumerable<IAssetFile> input, Regex regex)
         {
-            return input.Where(asset => regex.IsMatch(asset.FullName));
+            return input.Where(asset => regex.IsMatch(asset.RelativeName));
+        }
+
+        /// <summary>
+        /// Filters the file collection with a wildcard pattern.
+        /// </summary>
+        /// <param name="input">The input collection.</param>
+        /// <param name="pattern">The pattern for filtering.</param>
+        /// <returns>The filtered collection</returns>
+        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, string pattern)
+        {
+            // Wildcard to regex conversion
+            var regex = "^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+
+            // Execute the form with regex
+            return Except(input, new Regex(regex, RegexOptions.IgnoreCase));
+        }
+
+        /// <summary>
+        /// Filters the file collection with a regex pattern.
+        /// </summary>
+        /// <param name="input">The input collection.</param>
+        /// <param name="pattern">The pattern for filtering.</param>
+        /// <returns>The filtered collection</returns>
+        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, Regex regex)
+        {
+            return input.Where(asset => !regex.IsMatch(asset.RelativeName));
         }
 
         /// <summary>

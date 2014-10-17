@@ -13,26 +13,29 @@ namespace Baker
         static void Main(string[] args)
         {
            
-            var files = new DiskAssetProvider(@"c:\Workspace\Misakai.Baker\Test\")
-                .Fetch();
+            var files = new DiskAssetProvider(@"..\..\..\Test\")
+                .Fetch()
+                .Except("_site*");
 
-
-            
             MarkdownProcessor.Default
                 .Next(HtmlMinifier.Default)
-                .Process(files.Filter("*.md"))
+                .Process(files.Only("*.md"))
                 .Write();
 
             RazorProcessor.Default
-                .Process(files.Filter("*.cshtml"))
+                .Process(files.Only("*.cshtml"))
                 .Write();
 
             CssMinifier.Default
-                .Process(files.Filter("*.css"))
+                .Process(files.Only("*.css"))
                 .Write();
 
             JavaScriptMinifier.Default
-                .Process(files.Filter("*.js"))
+                .Process(files.Only("*.js"))
+                .Write();
+
+            PngOptimizer.Default
+                .Process(files.Only("*.png"))
                 .Write();
 
             //files.TryProcess<IAssetTemplate>("*.cshtml", RazorProcessor.Default);

@@ -32,7 +32,7 @@ namespace Baker
                 Tracing.Info("Markdown", "Compiled " + input.RelativeName);
 
                 // Return the output
-                return AssetOutputFile.FromString(input, content, "html");
+                return AssetOutputFile.Create(input, content, "html");
             }
             catch (Exception ex)
             {

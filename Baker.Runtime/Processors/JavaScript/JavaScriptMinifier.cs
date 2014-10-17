@@ -34,7 +34,7 @@ namespace Baker
                 Tracing.Info("JS", "Minified " + input.RelativeName);
 
                 // Return processed output
-                return AssetOutputFile.FromString(input, content);
+                return AssetOutputFile.Create(input, content);
             }
             catch(Exception ex)
             {
