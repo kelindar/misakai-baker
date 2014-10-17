@@ -9,6 +9,7 @@ Planned Features
 * Markdown support
 * Razor support for layout
 * Jekryll-like headers for the model
+* HTML minifier
 * Css minifier
 * Css unifier (multiple to single)
 * JavaScript minifier
@@ -20,5 +21,7 @@ Planned Features
 * Png optimizer
 * Jpeg optimizer
 * Translations/localization support
+* Integrated web server for testing
+* File watcher for development cycle updates
  
 
