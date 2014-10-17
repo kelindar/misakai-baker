@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Baker.Processors;
 using Baker.Providers;
 using Baker.Text;
+using Baker.View;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -39,6 +41,9 @@ namespace Baker
             // Prepare a project
             var project = new SiteProject();
 
+            // Set the path where the project lives
+            project.Directory = path;
+
             // Get the configuration file
             project.Configuration = YamlObject.FromSearch<SiteConfig>(path, SiteConfig.Name, SearchOption.TopDirectoryOnly);
             if (project.Configuration == null)
@@ -50,6 +55,8 @@ namespace Baker
 
             // Assign a provider
             project.Provider = new DiskAssetProvider(path);
+            project.ViewEngine = new RazorViewEngine();
+
 
             // We have a project!
             return project;

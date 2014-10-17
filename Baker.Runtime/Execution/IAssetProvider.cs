@@ -16,8 +16,10 @@ namespace Baker
         /// <summary>
         /// Fetches the assets from the data source.
         /// </summary>
+        /// <param name="project">The project to fetch the data for.</param>
         /// <returns>The enumerable set of assets.</returns>
-        IEnumerable<IAssetFile> Fetch();
+        IEnumerable<IAssetFile> Fetch(SiteProject project);
+
     }
 
     public abstract class AssetProviderBase : IAssetProvider
@@ -25,8 +27,9 @@ namespace Baker
         /// <summary>
         /// Fetches the assets from the data source.
         /// </summary>
+        /// <param name="project">The project to fetch the data for.</param>
         /// <returns>The enumerable set of assets.</returns>
-        public abstract IEnumerable<IAssetFile> Fetch();
+        public abstract IEnumerable<IAssetFile> Fetch(SiteProject project);
     }
 
 }

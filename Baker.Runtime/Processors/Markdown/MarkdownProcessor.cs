@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Baker.Text;
 
-namespace Baker
+namespace Baker.Processors
 {
     /// <summary>
     /// Represents a Razor engine processor.

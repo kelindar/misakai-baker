@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Baker.View;
 
 namespace Baker
 {
@@ -87,7 +88,7 @@ namespace Baker
         /// Writes the files to the file system.
         /// </summary>
         /// <param name="input">The collection of files to write.</param>
-        public static void Write(this IEnumerable<IAssetTemplate> input)
+        public static void Write(this IEnumerable<IViewTemplate> input)
         {
             // We actually need to enumerate now
             foreach (var file in input)

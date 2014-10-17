@@ -18,19 +18,27 @@ namespace Baker
         protected readonly FileInfo Info;
 
         /// <summary>
-        /// The associated file info.
+        /// The associated project.
         /// </summary>
-        protected readonly DirectoryInfo Root;        
+        protected readonly SiteProject Owner;        
 
         /// <summary>
         /// Constructs a new file wrapper around a file info.
         /// </summary>
+        /// <param name="project">The project to which this file belongs.</param>
         /// <param name="file">The file info to wrap.</param>
-        /// <param name="root">The root directory.</param>
-        public AssetFile(FileInfo file, DirectoryInfo root)
+        public AssetFile(SiteProject project, FileInfo file)
         {
             this.Info = file;
-            this.Root = root;
+            this.Owner = project;
+        }
+
+        /// <summary>
+        /// Gets to which project this file belongs.
+        /// </summary>
+        public SiteProject Project 
+        {
+            get { return this.Owner; }
         }
 
         /// <summary>
@@ -46,7 +54,7 @@ namespace Baker
         /// </summary>
         public DirectoryInfo VirtualDirectory
         {
-            get { return this.Root; }
+            get { return this.Owner.Directory; }
         }
 
         /// <summary>
@@ -89,7 +97,7 @@ namespace Baker
             get 
             {
                 return this.Info.FullName.Replace(
-                    this.Root.FullName, String.Empty
+                    this.VirtualDirectory.FullName, String.Empty
                     ); 
             }
         }

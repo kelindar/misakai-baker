@@ -7,9 +7,8 @@ using System.Linq;
 using System.Text;
 using Baker.Text;
 using nQuant;
-using RazorEngine;
 
-namespace Baker
+namespace Baker.Processors
 {
     /// <summary>
     /// Represents a css minifier.

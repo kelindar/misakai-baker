@@ -13,6 +13,11 @@ namespace Baker
     public interface IAssetFile
     {
         /// <summary>
+        /// Gets to which project this file belongs.
+        /// </summary>
+        SiteProject Project { get; }
+
+        /// <summary>
         /// Gets an instance of the parent directory.
         /// </summary>
         DirectoryInfo Directory { get; }
@@ -115,15 +120,26 @@ namespace Baker
         }
 
         /// <summary>
-        /// Gets a readable <see cref="ByteStream"/> representation of the request body.
+        /// Gets a readable <see cref="Stream"/> representation of the request body.
         /// </summary>
-        /// <returns>A readable <see cref="ByteStream"/> representation of the request body.</returns>
+        /// <returns>A readable <see cref="Stream"/> representation of the request body.</returns>
         public Stream AsStream()
         {
             var stream = new MemoryStream();
             if(this.Bytes != null)
                 stream.Write(this.Bytes, 0, this.Bytes.Length);
             return stream;
+        }
+
+        /// <summary>
+        /// Gets a readable <see cref="TextReader"/> representation of the request body.
+        /// </summary>
+        /// <returns>A readable <see cref="TextReader"/> representation of the request body.</returns>
+        public TextReader AsReader()
+        {
+            return new StreamReader(
+                this.AsStream()
+                );
         }
 
         /// <summary>
@@ -163,6 +179,23 @@ namespace Baker
                 Encoding.UTF8,
                 original
                 );
+        }
+
+        /// <summary>
+        /// Creates a content from a byte array.
+        /// </summary>
+        /// <param name="original">The original bytes.</param>
+        /// <returns>The content</returns>
+        public static AssetContent FromStream(Stream original)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                original.CopyTo(memoryStream);
+                return new AssetContent(
+                    Encoding.UTF8,
+                    memoryStream.ToArray()
+                    );
+            }
         }
 
         #endregion

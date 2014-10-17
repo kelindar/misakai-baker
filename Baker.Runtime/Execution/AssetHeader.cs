@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using YamlDotNet.Dynamic;
+using Baker.Text;
 
 namespace Baker
 {
     /// <summary>
     /// Represents an asset header.
     /// </summary>
-    public class AssetHeader : DynamicYaml
+    public class AssetHeader : YamlDynamic
     {
         /// <summary>
         /// The delimiters to check.

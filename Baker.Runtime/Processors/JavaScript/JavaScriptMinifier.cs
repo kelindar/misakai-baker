@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Baker.Text;
-using RazorEngine;
 
-namespace Baker
+namespace Baker.Processors
 {
     /// <summary>
     /// Represents a javascript minifier.

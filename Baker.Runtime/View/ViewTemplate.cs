@@ -4,19 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Baker
+namespace Baker.View
 {
     /// <summary>
-    /// Represents a contract for a template.
+    /// Represents an asset template.
     /// </summary>
-    public interface IAssetTemplate
+    public abstract class ViewTemplate : IViewTemplate
     {
         /// <summary>
         /// Executes the template and returns a content.
         /// </summary>
+        /// <param name="model">The model to execute the template on.</param>
         /// <returns>The output content that have been generated.</returns>
-        AssetContent Execute();
-    }
+        public abstract AssetContent Execute(AssetHeader model);
 
+    }
 
 }

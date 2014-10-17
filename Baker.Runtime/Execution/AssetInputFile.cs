@@ -18,8 +18,8 @@ namespace Baker
         /// Constructs a new file wrapper around a file info.
         /// </summary>
         /// <param name="file">The file info to wrap.</param>
-        /// <param name="root">The virtual directory.</param>
-        public AssetInputFile(FileInfo file, DirectoryInfo root) : base(file, root)
+        /// <param name="project">The project of this file.</param>
+        public AssetInputFile(SiteProject project, FileInfo file) : base(project, file)
         {
         }
 

@@ -19,15 +19,14 @@ namespace Baker
         /// </summary>
         /// <param name="file">The file info to wrap.</param>
         /// <param name="meta">The metadata associated with the output file.</param>
-        /// <param name="root">The virtual directory.</param>
+        /// <param name="project">The project of this file.</param>
         /// <param name="content">The content of the output file.</param>
-        public AssetOutputFile(FileInfo file, DirectoryInfo root, AssetHeader meta, byte[] content)
-            : base(file, root)
+        public AssetOutputFile(SiteProject project, FileInfo file, AssetHeader meta, byte[] content)
+            : base(project, file)
         {
             this.CachedContent = content;
             this.Meta = meta;
         }
-
 
         /// <summary>
         /// Gets the content of the file, or null if no content was found.
@@ -99,8 +98,8 @@ namespace Baker
                 : meta;
 
             return new AssetOutputFile(
+                from.Project,
                 name,
-                from.VirtualDirectory,
                 head,
                 content
                 );

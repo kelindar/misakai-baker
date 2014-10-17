@@ -54,16 +54,19 @@
     <Reference Include="YamlDotNet">
       <HintPath>..\packages\YamlDotNet.3.3.0\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet.Dynamic">
-      <HintPath>..\packages\YamlDotNet.Dynamic.3.2.3\lib\net40\YamlDotNet.Dynamic.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\AssetHeader.cs" />
+    <Compile Include="Processors\Layout\LayoutProcessor.cs" />
+    <Compile Include="Processors\Razor\RazorViewEngine.cs" />
+    <Compile Include="Text\Yaml\YamlExtensions.cs" />
+    <Compile Include="Text\Yaml\YamlDoc.cs" />
+    <Compile Include="Text\Yaml\YamlDynamic.cs" />
+    <Compile Include="View\IViewEngine.cs" />
     <Compile Include="Processors\Header\HeaderProcessor.cs" />
+    <Compile Include="Site\SiteConfig.cs" />
     <Compile Include="Site\SiteProject.Load.cs" />
     <Compile Include="Site\SiteProject.cs" />
-    <Compile Include="Site\SiteConfig.cs" />
     <Compile Include="Text\Yaml\YamlObject.cs" />
     <Compile Include="Processors\Css\CssMinifier.cs" />
     <Compile Include="Processors\Html\HtmlMinifier.cs" />
@@ -189,15 +192,14 @@
     <Compile Include="Text\Minifiers\MinifierSettings.cs" />
     <Compile Include="Execution\AssetOutputFile.cs" />
     <Compile Include="Execution\AssetInputFile.cs" />
-    <Compile Include="Execution\AssetTemplate.cs" />
+    <Compile Include="View\ViewTemplate.cs" />
     <Compile Include="Execution\AssetFile.cs" />
     <Compile Include="Diagnostics\Tracing.cs" />
-    <Compile Include="Execution\IAssetTemplate.cs" />
+    <Compile Include="View\IViewTemplate.cs" />
     <Compile Include="Execution\IAssetProviderEx.cs" />
     <Compile Include="Execution\IProcessor.cs" />
     <Compile Include="Text\Markdown\MarkdownLibrary.cs" />
     <Compile Include="Processors\Markdown\MarkdownProcessor.cs" />
-    <Compile Include="Processors\Razor\RazorTemplate.cs" />
     <Compile Include="Processors\Razor\RazorProcessor.cs" />
     <Compile Include="Providers\DiskAssetProvider.cs" />
     <Compile Include="Execution\IAssetProvider.cs" />
@@ -210,9 +212,15 @@
     <EmbeddedResource Include="Text\Minifiers\JavaScript\JScript.resx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="web.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Baker.Processors;
 using Baker.Providers;
 
 namespace Baker
@@ -17,17 +18,18 @@ namespace Baker
 
             var files = project
                 .Provider
-                .Fetch()
+                .Fetch(project)
                 .Except("_site*");
-
-            HeaderProcessor.Default
-                .Next(MarkdownProcessor.Default)
-                .Next(HtmlMinifier.Default)
-                .Process(files.Only("*.md"))
-                .Write();
 
             RazorProcessor.Default
                 .Process(files.Only("*.cshtml"))
+                .Write();
+
+            HeaderProcessor.Default
+                .Next(MarkdownProcessor.Default)
+                .Next(LayoutProcessor.Default)
+                .Next(HtmlMinifier.Default)
+                .Process(files.Only("*.md"))
                 .Write();
 
             CssMinifier.Default

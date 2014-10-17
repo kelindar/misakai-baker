@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using Baker.View;
 using RazorEngine;
 
-namespace Baker
+namespace Baker.Processors
 {
     /// <summary>
     /// Represents a Razor engine processor.
     /// </summary>
-    public class RazorProcessor : ProcessorBase<IAssetFile, IAssetTemplate>
+    public class RazorProcessor : ProcessorBase<IAssetFile, IViewTemplate>
     {
         /// <summary>
         /// Default processor.
@@ -22,27 +23,21 @@ namespace Baker
         /// </summary>
         /// <param name="input">The input to process.</param>
         /// <returns>The output of the process.</returns>
-        public override IAssetTemplate Process(IAssetFile input)
+        public override IViewTemplate Process(IAssetFile input)
         {
-            // Prepare the cache key
-            var cacheName = input.RelativeName;
             try
             {
-                // Compile the input and use Name as the cache key
-                Razor.Compile(input.Content.AsString(), typeof(ExpandoObject), cacheName);
-
-                // Compiled successfully
-                Tracing.Info("Razor", "Compiled " + cacheName);
-
-                // Return the template that can be used
-                return new RazorTemplate(cacheName);
+                // Register the template in the viewengine
+                return input.Project.ViewEngine.RegisterTemplate(input);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 // We didn't manage to create anything
                 Tracing.Error("Razor", ex);
                 return null;
             }
+
+
         }
 
     }
