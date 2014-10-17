@@ -30,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="nQuant.Core">
       <HintPath>..\packages\nQuant.1.0.3\Lib\net40\nQuant.Core.dll</HintPath>
     </Reference>
@@ -58,6 +59,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Execution\AssetHeader.cs" />
+    <Compile Include="Processors\Header\HeaderProcessor.cs" />
     <Compile Include="Site\SiteProject.Load.cs" />
     <Compile Include="Site\SiteProject.cs" />
     <Compile Include="Site\SiteConfig.cs" />

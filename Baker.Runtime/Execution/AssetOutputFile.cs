@@ -18,12 +18,14 @@ namespace Baker
         /// Constructs a new file wrapper around a file info.
         /// </summary>
         /// <param name="file">The file info to wrap.</param>
+        /// <param name="meta">The metadata associated with the output file.</param>
         /// <param name="root">The virtual directory.</param>
         /// <param name="content">The content of the output file.</param>
-        public AssetOutputFile(FileInfo file, DirectoryInfo root, byte[] content)
+        public AssetOutputFile(FileInfo file, DirectoryInfo root, AssetHeader meta, byte[] content)
             : base(file, root)
         {
             this.CachedContent = content;
+            this.Meta = meta;
         }
 
 
@@ -76,46 +78,33 @@ namespace Baker
 
         #region Static Members
 
-        public static AssetOutputFile Create(IAssetFile from, string content, string extension = null)
+        public static AssetOutputFile Create(IAssetFile from, string content, AssetHeader meta = null, string extension = null)
         {
-            var name = extension == null
-                ? new FileInfo(from.FullName)
-                : new FileInfo(Path.ChangeExtension(from.FullName, extension));
-
-            return new AssetOutputFile(
-                name,
-                from.VirtualDirectory,
-                Encoding.UTF8.GetBytes(content)
-                );
+            return Create(from, Encoding.UTF8.GetBytes(content), meta, extension);
         }
 
-        public static AssetOutputFile Create(IAssetFile from, byte[] content, string extension = null)
+        public static AssetOutputFile Create(IAssetFile from, MemoryStream content, AssetHeader meta = null, string extension = null)
+        {
+            return Create(from, content.ToArray(), meta, extension);
+        }
+
+        public static AssetOutputFile Create(IAssetFile from, byte[] content, AssetHeader meta = null, string extension = null)
         {
             var name = extension == null
                 ? new FileInfo(from.FullName)
                 : new FileInfo(Path.ChangeExtension(from.FullName, extension));
 
+            var head = meta == null
+                ? from.Meta
+                : meta;
+
             return new AssetOutputFile(
                 name,
                 from.VirtualDirectory,
+                head,
                 content
                 );
         }
-
-        public static AssetOutputFile Create(IAssetFile from, MemoryStream content, string extension = null)
-        {
-            var name = extension == null
-                ? new FileInfo(from.FullName)
-                : new FileInfo(Path.ChangeExtension(from.FullName, extension));
-
-            return new AssetOutputFile(
-                name,
-                from.VirtualDirectory,
-                content.ToArray()
-                );
-        }
-
-
         #endregion
 
     }

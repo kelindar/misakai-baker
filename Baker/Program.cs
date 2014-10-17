@@ -20,7 +20,8 @@ namespace Baker
                 .Fetch()
                 .Except("_site*");
 
-            MarkdownProcessor.Default
+            HeaderProcessor.Default
+                .Next(MarkdownProcessor.Default)
                 .Next(HtmlMinifier.Default)
                 .Process(files.Only("*.md"))
                 .Write();

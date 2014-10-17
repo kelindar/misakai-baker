@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,7 +20,7 @@ namespace Baker
         /// <summary>
         /// The associated file info.
         /// </summary>
-        protected readonly DirectoryInfo Root;
+        protected readonly DirectoryInfo Root;        
 
         /// <summary>
         /// Constructs a new file wrapper around a file info.
@@ -91,6 +92,15 @@ namespace Baker
                     this.Root.FullName, String.Empty
                     ); 
             }
+        }
+
+        /// <summary>
+        /// Gets the header associated with this file;
+        /// </summary>
+        public AssetHeader Meta
+        {
+            get;
+            set;
         }
 
         /// <summary>

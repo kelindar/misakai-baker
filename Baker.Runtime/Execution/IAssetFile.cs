@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -50,6 +51,11 @@ namespace Baker
         /// Gets the content of the file.
         /// </summary>
         AssetContent Content { get; }
+
+        /// <summary>
+        /// Gets or sets the header associated with this file.
+        /// </summary>
+        AssetHeader Meta { get; set; }
         
     }
 
