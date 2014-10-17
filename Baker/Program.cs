@@ -14,7 +14,7 @@ namespace Baker
         static void Main(string[] args)
         {
 
-            SiteProject.Bake(@"..\..\..\Test\");
+            SiteProject.Taste(@"..\..\..\Test\");
         }
     }
 }

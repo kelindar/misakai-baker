@@ -20,18 +20,17 @@ namespace Baker
         public static readonly string Name = "_config.yaml";
 
         /// <summary>
-        /// Constructs a new configuration.
-        /// </summary>
-        public SiteConfig()
-        {
-            this.Server = new ServerConfig();
-        }
-
-        /// <summary>
         /// The directory where Baker will write files.
         /// </summary>
         [DefaultValue("_site")]
-        public string Destination { get; set; } 
+        public string Destination { get; set; }
+
+        /// <summary>
+        /// The default index document for the web handler.
+        /// </summary>
+        [DefaultValue("index.html")]
+        [YamlAlias("index-document")]
+        public string IndexDocument { get; set; } 
 
         /// <summary>
         /// Exclude directories and/or files from the conversion. These exclusions 
@@ -41,35 +40,15 @@ namespace Baker
         public List<string> Exclude { get; set; }
 
         /// <summary>
-        /// The configuration of the server by default.
-        /// </summary>
-        public ServerConfig Server { get; set; }
-
-    }
-
-
-    /// <summary>
-    /// Server configuration section.
-    /// </summary>
-    public sealed class ServerConfig : YamlObject
-    {
-        /// <summary>
-        /// Listen at the given hostname.
-        /// </summary>
-        [DefaultValue("localhost")]
-        public string Host { get; set; }
-
-        /// <summary>
         /// Listen on the given port.
         /// </summary>
         [DefaultValue(8080)]
         public int Port { get; set; }
 
-        /// <summary>
-        /// Serve the website from the given base URL
-        /// </summary>
-        [YamlAlias("baseurl")]
-        public string BaseUrl { get; set; }
+
+
     }
+
+
 
 }

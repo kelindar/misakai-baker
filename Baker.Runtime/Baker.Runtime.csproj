@@ -59,14 +59,15 @@
     <Compile Include="Execution\AssetHeader.cs" />
     <Compile Include="Processors\Layout\LayoutProcessor.cs" />
     <Compile Include="Processors\Razor\RazorViewEngine.cs" />
-    <Compile Include="Site\SiteProject.Bake.cs" />
+    <Compile Include="Site\SiteHandler.cs" />
+    <Compile Include="Site\SiteProject.Main.cs" />
+    <Compile Include="Site\SiteWatcher.cs" />
     <Compile Include="Text\Yaml\YamlExtensions.cs" />
     <Compile Include="Text\Yaml\YamlDoc.cs" />
     <Compile Include="Text\Yaml\YamlDynamic.cs" />
     <Compile Include="View\IViewEngine.cs" />
     <Compile Include="Processors\Header\HeaderProcessor.cs" />
     <Compile Include="Site\SiteConfig.cs" />
-    <Compile Include="Site\SiteProject.Load.cs" />
     <Compile Include="Site\SiteProject.cs" />
     <Compile Include="Text\Yaml\YamlObject.cs" />
     <Compile Include="Processors\Css\CssMinifier.cs" />

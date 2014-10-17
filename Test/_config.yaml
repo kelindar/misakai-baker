@@ -1,6 +1,4 @@
 destination: _site
+index-document: index.html
 exclude: 
-server:
-  host: localhost
-  port: 8080
-  baseurl: 
+port: 8080
