@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using Spike;
 
 namespace Baker
 {
-    public class SiteWatcher : DisposableObject
+    public class SiteWatcher : Spike.DisposableObject
     {
         private readonly FileSystemWatcher Watcher = new FileSystemWatcher();
         private readonly SiteProject Project;
-        private Action<string> Callback;
+        private Action Callback;
+        private Timer Timer;
+        private DateTime LastFired = DateTime.MinValue;
+        private DateTime LastReal = DateTime.MinValue;
 
         /// <summary>
         /// Constructs a new watcher.
@@ -27,16 +30,18 @@ namespace Baker
             this.Watcher.IncludeSubdirectories = true;
             this.Watcher.Changed += OnChanged;
             this.Watcher.Created += OnChanged;
+            this.Timer = new Timer(this.OnTick, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
         /// Bind the watcher.
         /// </summary>
         /// <param name="onChange"></param>
-        public void Bind(Action<string> onChange)
+        public void Bind(Action onChange)
         {
             this.Callback = onChange;
             this.Watcher.EnableRaisingEvents = true;
+            this.Timer.Change(0, 100);
         }
 
         /// <summary>
@@ -44,26 +49,44 @@ namespace Baker
         /// </summary>
         protected override void Dispose(bool disposing)
         {
-            Watcher.EnableRaisingEvents = false;
-            Watcher.Changed -= OnChanged;
-            Watcher.Created -= OnChanged;
+            this.Watcher.EnableRaisingEvents = false;
+            this.Watcher.Changed -= OnChanged;
+            this.Watcher.Created -= OnChanged;
+            this.Timer.Dispose();
         }
 
-        string lastFile;
+        string LastFile;
         private void OnChanged(object sender, FileSystemEventArgs args)
         {
             var fullPath = args.FullPath;
             if (fullPath.Contains(this.Project.Configuration.Destination))
                 return;
 
-            if (args.FullPath == lastFile)
+            if (args.FullPath == LastFile)
             {
-                lastFile = String.Empty;
+                LastFile = String.Empty;
                 return;
             }
 
-            Callback(args.FullPath);
-            lastFile = args.FullPath;
+            this.LastReal = DateTime.Now;
+            this.LastFile = args.FullPath;
         }
+
+        private void OnTick(object state)
+        {
+            // If nothing happened, return
+            if (this.LastReal + TimeSpan.FromMilliseconds(5000) < this.LastFired)
+                return;
+
+            // Fire with a delay
+            //if (this.LastFired < this.LastReal + TimeSpan.FromMilliseconds(5000))
+           // {
+                // Fire the callback
+                this.LastFired = DateTime.Now;
+                this.Callback();
+            //}
+        }
+
+
     }
 }

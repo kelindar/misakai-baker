@@ -37,21 +37,9 @@ namespace Baker
             {
                 // Bind the watcher
                 this.Watcher = new SiteWatcher(project);
-                this.Watcher.Bind((file) =>
+                this.Watcher.Bind(() =>
                 {
-                    var info = new FileInfo(file);
-                    if (!info.Exists)
-                        return;
-
-                    Tracing.Info("Change", info.Name);
-
                     this.Project.Update();
-
-                    // Create a new asset
-                    /*var asset = new AssetInputFile(this.Project, info);
-
-                    // Print and process
-                    this.Project.Process(new AssetInputFile[]{ asset })*/;
                 });
             };
         }
