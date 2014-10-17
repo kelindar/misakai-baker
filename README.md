@@ -3,6 +3,7 @@ Misakai Baker
 
 The aim of this project is to write a flexible and extensible static website generator forC# / .Net people.
 
+[![Build status](https://ci.appveyor.com/api/projects/status/h89p713jb1fkuthv?svg=true)](https://ci.appveyor.com/project/Kelindar/misakai-baker)
 
 Planned Features
 ================
