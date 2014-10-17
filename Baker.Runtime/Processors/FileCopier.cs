@@ -17,6 +17,11 @@ namespace Baker.Processors
         public static readonly FileCopier Default = new FileCopier();
 
         /// <summary>
+        /// Parallel file copier
+        /// </summary>
+        public FileCopier() : base(32){}
+
+        /// <summary>
         /// Processes a single item.
         /// </summary>
         /// <param name="input">The input to process.</param>

@@ -37,6 +37,16 @@ namespace Baker
         }
 
         /// <summary>
+        /// Constructs a new instance of a processor.
+        /// </summary>
+        /// <param name="degreeOfParallelism">Degree of parallelism for this procesor.</param>
+        public ProcessorBase(int degreeOfParallelism)
+            : base(degreeOfParallelism)
+        {
+            this.Executor = this.Process;
+        }
+
+        /// <summary>
         /// Processes a single item.
         /// </summary>
         /// <param name="input">The input to process.</param>
