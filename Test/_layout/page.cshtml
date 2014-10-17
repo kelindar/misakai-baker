@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    @Include("well")
-    @Input("Helpers")
+    @Input("_helpers")
     <title>@Model.title</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
@@ -16,7 +15,9 @@
         @if (IsSectionDefined("Well"))
         {
             <section>
-                @RenderSection("Well")
+                <div class="well">
+                    @RenderSection("Well")
+                </div>
             </section>
         }
     </div>
