@@ -61,6 +61,7 @@ namespace Baker.View
             // Using a new scope, avoiding state sharing problems that way
             using (var service = new TemplateService())
             {
+
                 // Process the content
                 this.ProcessContent(content, service, headers);
 
@@ -85,16 +86,41 @@ namespace Baker.View
                 ProcessSubContent(match, service, model);
         }
 
+
         private void ProcessSubContent(Match match, TemplateService service, dynamic model)
         {
             var subName = match.Groups[1].Value; 
             string subContent;
             if (this.Cache.TryGetValue(subName, out subContent))
             {
+                // Process inputs
+                subContent = this.ProcessInputs(subContent);
+
                 // Recursively process it and add to the service
                 ProcessContent(subContent, service, model);
-                service.GetTemplate(subContent, model, subName);
+
+                // Compile the template
+                service.Compile(subContent, typeof(AssetHeader), subName);
             }
+        }
+
+        private string ProcessInputs(string content)
+        {
+            // recursively process the @Inputs
+            const string inputPattern = @"@Input\(""([_a-zA-Z]*)""\)";
+            foreach (Match match in Regex.Matches(content, inputPattern, RegexOptions.IgnoreCase))
+            {
+                // Get from the cache
+                var subName = match.Groups[1].Value; 
+                var subContent = String.Empty;
+                this.Cache.TryGetValue(subName, out subContent);
+
+                // Replace anyway
+                content = content.Replace(match.ToString(), subContent);
+            }
+
+            return content;
+
         }
 
     }

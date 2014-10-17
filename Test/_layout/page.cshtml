@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+    @Include("well")
+    @Input("Helpers")
     <title>@Model.title</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
@@ -8,8 +10,9 @@
 <body>
     <div class="container">
         @RenderBody()
-        @Include("well")
 
+
+        @SayHi("Visitor")
         @if (IsSectionDefined("Well"))
         {
             <section>
