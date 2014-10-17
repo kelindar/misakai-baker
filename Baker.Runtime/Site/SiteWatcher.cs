@@ -14,8 +14,8 @@ namespace Baker
         private readonly SiteProject Project;
         private Action Callback;
         private Timer Timer;
-        private DateTime LastFired = DateTime.MinValue;
-        private DateTime LastReal = DateTime.MinValue;
+        private DateTime ChangeCurrent = DateTime.MinValue;
+        private bool ChangeFire = false;
 
         /// <summary>
         /// Constructs a new watcher.
@@ -68,23 +68,23 @@ namespace Baker
                 return;
             }
 
-            this.LastReal = DateTime.Now;
+            this.ChangeCurrent = DateTime.Now;
+            this.ChangeFire = true;
             this.LastFile = args.FullPath;
         }
 
         private void OnTick(object state)
         {
-            // If nothing happened, return
-            if (this.LastReal + TimeSpan.FromMilliseconds(5000) < this.LastFired)
+            if (!this.ChangeFire)
                 return;
 
-            // Fire with a delay
-            //if (this.LastFired < this.LastReal + TimeSpan.FromMilliseconds(5000))
-           // {
-                // Fire the callback
-                this.LastFired = DateTime.Now;
-                this.Callback();
-            //}
+            var now = DateTime.Now;
+            if (now < this.ChangeCurrent + TimeSpan.FromMilliseconds(350))
+                return;
+
+            // We fired
+            this.ChangeFire = false;
+            this.Callback();
         }
 
 
