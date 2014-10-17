@@ -17,6 +17,14 @@ namespace Baker
     /// </summary>
     public sealed partial class SiteProject : IDisposable
     {
+        #region Private Fiels
+        /// <summary>
+        /// When for the last time the project was update?
+        /// </summary>
+        internal long LastUpdate = DateTime.UtcNow.Ticks;
+        #endregion
+
+        #region Public Properties
         /// <summary>
         /// Gets the directory of this project.
         /// </summary>
@@ -52,6 +60,7 @@ namespace Baker
             get;
             private set;
         }
+        #endregion
 
         #region Static Members
         /// <summary>

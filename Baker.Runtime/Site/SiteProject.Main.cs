@@ -85,6 +85,8 @@ namespace Baker
                 .On(files.Except("*.tmp", "*.cshtml", "*.md", "*_config.yaml", "*~*"))
                 .Export();
 
+            // Last update changed
+            this.LastUpdate = DateTime.Now.Ticks;
         }
 
 

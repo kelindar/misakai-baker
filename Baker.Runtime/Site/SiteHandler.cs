@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Baker.Text;
 using Spike;
 using Spike.Network.Http;
 
@@ -17,6 +19,10 @@ namespace Baker
         private readonly SiteProject Project;
         private readonly HttpMimeMap Mime = new HttpMimeMap();
         private SiteWatcher Watcher;
+        private readonly string   ReloadScript;
+        private readonly string[] ReloadExtensions = new string[]{
+            ".htm", ".html"
+        };
 
         /// <summary>
         /// Constructs a new handler.
@@ -25,6 +31,8 @@ namespace Baker
         public SiteHandler(SiteProject project)
         {
             this.Project = project;
+            this.ReloadScript = GetScript();
+            
             Service.Started += () =>
             {
                 // Bind the watcher
@@ -54,6 +62,9 @@ namespace Baker
         /// </summary>
         public bool CanHandle(HttpContext context, HttpVerb verb, string url)
         {
+            if (url == "/last-update")
+                return true;
+
             FileInfo file;
             return TryGet(url, out file);
         }
@@ -63,14 +74,39 @@ namespace Baker
         /// </summary>
         public void ProcessRequest(HttpContext context)
         {
-            FileInfo file;
-            if(TryGet(context.Request.Path, out file))
+            var url = context.Request.Path;
+            if (url == "/last-update")
             {
-                // Return with the appropriate content-type
-                context.Response.ContentType = Mime.GetMime(file.Extension);
-                context.Response.Write(
-                    File.ReadAllBytes(file.FullName)
-                    );
+                // Print out last update time
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(this.Project.LastUpdate);
+            }
+            else
+            {
+                // Load a resource
+                FileInfo file;
+                if (TryGet(url, out file))
+                {
+                    // Return with the appropriate content-type
+                    context.Response.ContentType = Mime.GetMime(file.Extension);
+                    context.Response.Write(
+                        File.ReadAllBytes(file.FullName)
+                        );
+
+                    // We should add the script
+                    if (ReloadExtensions.Contains(file.Extension))
+                    {
+                        // Script
+                        var script = Encoding.UTF8.GetBytes(
+                            "<script>" +
+                            "window._update = '" + this.Project.LastUpdate + "';" +
+                            this.ReloadScript +
+                            "</script>");
+
+                        // Write the script
+                        context.Response.Write(script);
+                    }
+                }
             }
         }
 
@@ -99,6 +135,23 @@ namespace Baker
                 // Failed
                 file = null;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the script from the assembly.
+        /// </summary>
+        /// <returns></returns>
+        private string GetScript()
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "Baker.Diagnostics.Reload.js";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                var minifier = new Minifier();
+                return minifier.MinifyJavaScript(reader.ReadToEnd());
             }
         }
         #endregion
