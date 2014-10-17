@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Baker</RootNamespace>
+    <AssemblyName>Baker.Runtime</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RazorEngine">
+      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Processors\Css\CssMinifier.cs" />
+    <Compile Include="Processors\JavaScript\JavaScriptMinifier.cs" />
+    <Compile Include="Text\Minifiers\CssEncoderFallback.cs" />
+    <Compile Include="Text\Minifiers\Css\CssColorName.cs" />
+    <Compile Include="Text\Minifiers\Css\CssErrorCode.cs" />
+    <Compile Include="Text\Minifiers\Css\CssParser.cs" />
+    <Compile Include="Text\Minifiers\Css\CssScanner.cs" />
+    <Compile Include="Text\Minifiers\Css\CssSettings.cs" />
+    <Compile Include="Text\Minifiers\Css\CssStrings.Designer.cs" />
+    <Compile Include="Text\Minifiers\Css\CssToken.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\IJsNameDeclaration.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\IJsNameReference.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\IJsSourceMap.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\IJsVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsActivationObject.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsAnalyzeNodeVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsArrayLiteral.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsAspNetBlockNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsAstNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsAstNodeList.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsBinaryOperator.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsBlock.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsBlockScope.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsBreak.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsCallNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsCatchScope.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsCommaOperator.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditional.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationComment.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationElse.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationElseIf.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationEnd.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationIf.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationOn.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationSet.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConditionalCompilationStatement.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConstantWrapper.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConstantWrapperPP.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsConstStatement.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsContext.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsContinueNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JScript.Designer.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsCrunchEnumerator.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsCustomNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDebuggerNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDeclaration.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDetachReferences.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDirectivePrologue.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDocumentContext.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsDoWhile.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsEmptyStatement.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsError.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsEvaluateLiteralVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsException.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsExpression.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsFinalPassVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsForIn.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsForNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsFunctionObject.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsFunctionScope.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsGetterSetter.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsGlobalScope.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsGroupingOperator.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsIfNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsImportantComment.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsIterationStatement.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsKeyword.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsLabeledStatement.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsLexicalDeclaration.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsLogicalNot.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsLookup.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsMatchPropertiesVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsMember.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsMissing.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsNewParensVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsObjectLiteral.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsObjectLiteralField.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsObjectLiteralProperty.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsonOutputVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsOperatorPrecedence.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsOutputVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsParameterDeclaration.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsParser.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsRegExpLiteral.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsReorderScopeVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsResolutionVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsReturnNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsScanner.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsScannerException.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsScriptSharpSourceMap.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsSettings.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsSourceMapFactory.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsStatementStartVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsSwitch.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsSwitchCase.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsThisLiteral.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsThrowNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsToken.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsTreeVisitor.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsTryNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsUnaryOperator.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsV3SourceMap.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsVar.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsVariableDeclaration.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsVariableField.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsWhileNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsWithNode.cs" />
+    <Compile Include="Text\Minifiers\JavaScript\JsWithScope.cs" />
+    <Compile Include="Text\Minifiers\JsEncoderFallback.cs" />
+    <Compile Include="Text\Minifiers\Minifier.cs" />
+    <Compile Include="Text\Minifiers\MinifierError.cs" />
+    <Compile Include="Text\Minifiers\MinifierExtensions.cs" />
+    <Compile Include="Text\Minifiers\MinifierParser.cs" />
+    <Compile Include="Text\Minifiers\MinifierResourceStrings.cs" />
+    <Compile Include="Text\Minifiers\MinifierSettings.cs" />
+    <Compile Include="Execution\AssetOutputFile.cs" />
+    <Compile Include="Execution\AssetInputFile.cs" />
+    <Compile Include="Execution\AssetTemplate.cs" />
+    <Compile Include="Execution\AssetFile.cs" />
+    <Compile Include="Diagnostics\Tracing.cs" />
+    <Compile Include="Execution\IAssetTemplate.cs" />
+    <Compile Include="Execution\IAssetProviderEx.cs" />
+    <Compile Include="Execution\IProcessor.cs" />
+    <Compile Include="Text\Markdown\MarkdownLibrary.cs" />
+    <Compile Include="Processors\Markdown\MarkdownProcessor.cs" />
+    <Compile Include="Processors\Razor\RazorTemplate.cs" />
+    <Compile Include="Processors\Razor\RazorProcessor.cs" />
+    <Compile Include="Providers\DiskAssetProvider.cs" />
+    <Compile Include="Execution\IAssetProvider.cs" />
+    <Compile Include="Execution\IAssetFile.cs" />
+    <Compile Include="Execution\IPipeline.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Text\Minifiers\Css\CssStrings.resx" />
+    <EmbeddedResource Include="Text\Minifiers\JavaScript\JScript.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

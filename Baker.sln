@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30324.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baker", "Baker\Baker.csproj", "{7C8FC879-DB0B-404F-BBE2-CCF751F842B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baker.Runtime", "Baker.Runtime\Baker.Runtime.csproj", "{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C8FC879-DB0B-404F-BBE2-CCF751F842B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C8FC879-DB0B-404F-BBE2-CCF751F842B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C8FC879-DB0B-404F-BBE2-CCF751F842B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C8FC879-DB0B-404F-BBE2-CCF751F842B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{490BEB30-62E0-40E0-BFB2-537A4ED9FD98}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Baker
+{
+    /// <summary>
+    /// Represents a contract for site data providers.
+    /// </summary>
+    public interface IAssetProvider 
+    {
+        /// <summary>
+        /// Fetches the assets from the data source.
+        /// </summary>
+        /// <returns>The enumerable set of assets.</returns>
+        IEnumerable<IAssetFile> Fetch();
+    }
+
+    public abstract class AssetProviderBase : IAssetProvider
+    {
+        /// <summary>
+        /// Fetches the assets from the data source.
+        /// </summary>
+        /// <returns>The enumerable set of assets.</returns>
+        public abstract IEnumerable<IAssetFile> Fetch();
+    }
+
+}
