@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spike;
 using Spike.Network.Http;
 
 namespace Baker
@@ -13,16 +14,38 @@ namespace Baker
     /// </summary>
     internal class SiteHandler : IHttpHandler
     {
-        private readonly SiteProject Site;
+        private readonly SiteProject Project;
         private readonly HttpMimeMap Mime = new HttpMimeMap();
+        private SiteWatcher Watcher;
 
         /// <summary>
         /// Constructs a new handler.
         /// </summary>
-        /// <param name="site"></param>
-        public SiteHandler(SiteProject site)
+        /// <param name="project"></param>
+        public SiteHandler(SiteProject project)
         {
-            this.Site = site;
+            this.Project = project;
+            Service.Started += () =>
+            {
+                // Bind the watcher
+                this.Watcher = new SiteWatcher(project);
+                this.Watcher.Bind((file) =>
+                {
+                    var info = new FileInfo(file);
+                    if (!info.Exists)
+                        return;
+
+                    Tracing.Info("Change", info.Name);
+
+                    this.Project.Update();
+
+                    // Create a new asset
+                    /*var asset = new AssetInputFile(this.Project, info);
+
+                    // Print and process
+                    this.Project.Process(new AssetInputFile[]{ asset })*/;
+                });
+            };
         }
 
         #region IHttpHandler Members
@@ -66,7 +89,7 @@ namespace Baker
                     url += "index.html";
                 if (url.StartsWith("/"))
                     url = url.Substring(1);
-                var path = Path.Combine(this.Site.Directory.FullName, this.Site.Configuration.Destination, url)
+                var path = Path.Combine(this.Project.Directory.FullName, this.Project.Configuration.Destination, url)
                     .Replace("\\", "/");
                 file = new FileInfo(path);
                 return file.Exists;

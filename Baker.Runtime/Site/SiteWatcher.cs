@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Spike;
 
-namespace Baker.Site
+namespace Baker
 {
     public class SiteWatcher : DisposableObject
     {

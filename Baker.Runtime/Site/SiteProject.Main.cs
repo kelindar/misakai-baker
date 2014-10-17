@@ -22,7 +22,7 @@ namespace Baker
         /// The main pipeline for project processing.
         /// </summary>
         /// <param name="files">The files that should be processed.</param>
-        private void Process(IEnumerable<IAssetFile> files)
+        public void Process(IEnumerable<IAssetFile> files)
         {
             // Load all templates
             RazorProcessor.Default
@@ -57,6 +57,36 @@ namespace Baker
                 .On(files.Only("*.png"))
                 .Export();
         }
+
+        /// <summary>
+        /// The main pipeline for project processing.
+        /// </summary>
+        /// <param name="files">The files that should be processed.</param>
+        public void Update()
+        {
+            // Rescan files
+            var files = this.Provider.Fetch(this);
+
+            // Load all templates
+            RazorProcessor.Default
+                .On(files.Only("*.cshtml"))
+                .Export();
+
+            // Handle markup stuff
+            HeaderProcessor.Default
+                .Next(MarkdownProcessor.Default)
+                .Next(LayoutProcessor.Default)
+                .Next(HtmlMinifier.Default)
+                .On(files.Only("*.md"))
+                .Export();
+
+            // Copy everything
+            FileCopier.Default
+                .On(files.Except("*.cshtml", "*.md", "*_config.yaml"))
+                .Export();
+
+        }
+
 
         /// <summary>
         /// Builds the project.
@@ -97,13 +127,16 @@ namespace Baker
                 // Rebuid everything first
                 SiteProject.Bake(path);
 
+                // Register the handler
                 Service.Http.Register(new SiteHandler(project));
+
                 // Spin Spike Engine on this thread
                 Service.Listen(
                     new TcpBinding(IPAddress.Any, project.Configuration.Port)
                     );
             }
         }
+
     }
 
 

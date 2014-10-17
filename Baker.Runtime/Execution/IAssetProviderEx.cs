@@ -48,15 +48,18 @@ namespace Baker
         /// Filters the file collection with a wildcard pattern.
         /// </summary>
         /// <param name="input">The input collection.</param>
-        /// <param name="pattern">The pattern for filtering.</param>
+        /// <param name="patterns">The pattern for filtering.</param>
         /// <returns>The filtered collection</returns>
-        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, string pattern)
+        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, params string[] patterns)
         {
             // Wildcard to regex conversion
-            var regex = "^" + Regex.Escape(pattern).Replace(@"\*", ".*").Replace(@"\?", ".") + "$";
+            var regex = patterns
+                .Select(p => "^" + Regex.Escape(p).Replace(@"\*", ".*").Replace(@"\?", ".") + "$")
+                .Select(p => new Regex(p, RegexOptions.IgnoreCase))
+                .ToArray();
 
             // Execute the form with regex
-            return Except(input, new Regex(regex, RegexOptions.IgnoreCase));
+            return Except(input, regex);
         }
 
         /// <summary>
@@ -65,9 +68,11 @@ namespace Baker
         /// <param name="input">The input collection.</param>
         /// <param name="pattern">The pattern for filtering.</param>
         /// <returns>The filtered collection</returns>
-        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, Regex regex)
+        public static IEnumerable<IAssetFile> Except(this IEnumerable<IAssetFile> input, params Regex[] patterns)
         {
-            return input.Where(asset => !regex.IsMatch(asset.RelativeName));
+            return input.Where(asset =>
+                patterns.Any(regex => regex.IsMatch(asset.RelativeName)) == false
+                );
         }
 
         /// <summary>

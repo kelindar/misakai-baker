@@ -57,8 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\AssetHeader.cs" />
-    <Compile Include="Processors\Layout\LayoutProcessor.cs" />
-    <Compile Include="Processors\Razor\RazorViewEngine.cs" />
+    <Compile Include="Processors\FileCopier.cs" />
+    <Compile Include="Processors\LayoutProcessor.cs" />
+    <Compile Include="View\RazorViewEngine.cs" />
     <Compile Include="Site\SiteHandler.cs" />
     <Compile Include="Site\SiteProject.Main.cs" />
     <Compile Include="Site\SiteWatcher.cs" />
@@ -66,14 +67,14 @@
     <Compile Include="Text\Yaml\YamlDoc.cs" />
     <Compile Include="Text\Yaml\YamlDynamic.cs" />
     <Compile Include="View\IViewEngine.cs" />
-    <Compile Include="Processors\Header\HeaderProcessor.cs" />
+    <Compile Include="Processors\HeaderProcessor.cs" />
     <Compile Include="Site\SiteConfig.cs" />
     <Compile Include="Site\SiteProject.cs" />
     <Compile Include="Text\Yaml\YamlObject.cs" />
-    <Compile Include="Processors\Css\CssMinifier.cs" />
-    <Compile Include="Processors\Html\HtmlMinifier.cs" />
-    <Compile Include="Processors\JavaScript\JavaScriptMinifier.cs" />
-    <Compile Include="Processors\Images\PngOptimizer.cs" />
+    <Compile Include="Processors\CssMinifier.cs" />
+    <Compile Include="Processors\HtmlMinifier.cs" />
+    <Compile Include="Processors\JavaScriptMinifier.cs" />
+    <Compile Include="Processors\PngOptimizer.cs" />
     <Compile Include="Text\Minifiers\CssEncoderFallback.cs" />
     <Compile Include="Text\Minifiers\Css\CssColorName.cs" />
     <Compile Include="Text\Minifiers\Css\CssErrorCode.cs" />
@@ -201,8 +202,8 @@
     <Compile Include="Execution\IAssetProviderEx.cs" />
     <Compile Include="Execution\IProcessor.cs" />
     <Compile Include="Text\Markdown\MarkdownLibrary.cs" />
-    <Compile Include="Processors\Markdown\MarkdownProcessor.cs" />
-    <Compile Include="Processors\Razor\RazorProcessor.cs" />
+    <Compile Include="Processors\MarkdownProcessor.cs" />
+    <Compile Include="Processors\RazorProcessor.cs" />
     <Compile Include="Providers\DiskAssetProvider.cs" />
     <Compile Include="Execution\IAssetProvider.cs" />
     <Compile Include="Execution\IAssetFile.cs" />
@@ -218,6 +219,7 @@
     <None Include="packages.config" />
     <None Include="web.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
