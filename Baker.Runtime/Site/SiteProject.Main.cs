@@ -82,7 +82,7 @@ namespace Baker
 
             // Copy everything
             FileCopier.Default
-                .On(files.Except("*.cshtml", "*.md", "*_config.yaml"))
+                .On(files.Except("*.tmp", "*.cshtml", "*.md", "*_config.yaml", "*~*"))
                 .Export();
 
         }

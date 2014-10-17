@@ -8,5 +8,5 @@ Welcome to our static generator tool, hope you'll enjoy and contribute!
 
 @section Well
 {
-    Here's some content in a conditional section.
+    Here's some content in a conditional section. And update!
 }
