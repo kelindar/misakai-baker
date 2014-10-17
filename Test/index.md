@@ -12,3 +12,4 @@ Welcome to our static generator tool, hope you'll enjoy and contribute!
 {
     Here's some content in a conditional section. 
 }
+

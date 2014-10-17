@@ -55,7 +55,7 @@ window.AutoReload.reload = function() {
             console.log("Updating to " + data);
             location.reload();
         } else {
-            setTimeout(window.AutoReload.reload, 300);
+            setTimeout(window.AutoReload.reload, 100);
         }
     });
 }
