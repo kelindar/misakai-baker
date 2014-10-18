@@ -20,16 +20,17 @@ Usage
 =====
 
 In order to build the final project with all optimizations on:
----
+
+```
 Baker.exe bake c:\Project
----
+```
 
 
-In order to launch and serve the static website in a in-process webserver, use 'serve' command. This will watch any modifications you make to the files and auto-update and reload your browser for you. 
-The default port is 8080, so please open a browser on 127.0.0.1:8080 once you started.
----
+In order to launch and serve the static website in a in-process webserver, use 'serve' command. This will watch any modifications you make to the files and auto-update and reload your browser for you. The default port is 8080, so please open a browser on 127.0.0.1:8080 once you started.
+
+```
 Baker.exe serve c:\Project
----
+```
 
 Planned Features
 ================
