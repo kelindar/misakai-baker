@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    @Input("_helpers")
+    @Input("_view/helpers")
     <title>@Model.title</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
 </head>
 <body>
     <div class="container">
-        @RenderBody()
 
+        @RenderBody()
+        
+        <ul>
+        @foreach(var food in (List<string>)Model.foods)
+        {
+            <li>@food</li>
+        }
+        </ul>
 
         @SayHi("Hello")
         @if (IsSectionDefined("Well"))
@@ -20,6 +27,8 @@
                 </div>
             </section>
         }
+
+
     </div>
     
 

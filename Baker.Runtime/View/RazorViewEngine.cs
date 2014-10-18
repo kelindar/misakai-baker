@@ -33,9 +33,12 @@ namespace Baker.View
         {
             // Prepare the cache key
             var cacheName = input
-                .Name
-                .Replace(input.Extension, String.Empty);
+                .RelativeName
+                .Replace(input.Extension, String.Empty)
+                .Replace(@"\", @"/");
             var content = input.Content.AsString();
+
+            Tracing.Info("Template", cacheName);
 
             // Update the map
             Cache.AddOrUpdate(cacheName,
@@ -74,8 +77,8 @@ namespace Baker.View
 
         private void ProcessContent(string content, TemplateService service, dynamic model)
         {
-            const string layoutPattern = @"@\{Layout=""([_a-zA-Z]*)"";\}";
-            const string includePattern = @"@Include\(""([_a-zA-Z]*)""\)";
+            const string layoutPattern = @"@\{Layout=""((?s).*)"";\}";
+            const string includePattern = @"@Include\(""((?s).*)""\)";
 
             // recursively process the Layout
             foreach (Match match in Regex.Matches(content, layoutPattern, RegexOptions.IgnoreCase))
@@ -107,7 +110,7 @@ namespace Baker.View
         private string ProcessInputs(string content)
         {
             // recursively process the @Inputs
-            const string inputPattern = @"@Input\(""([_a-zA-Z]*)""\)";
+            const string inputPattern = @"@Input\(""((?s).*)""\)";
             foreach (Match match in Regex.Matches(content, inputPattern, RegexOptions.IgnoreCase))
             {
                 // Get from the cache
