@@ -16,9 +16,9 @@ namespace Baker.View
     /// </summary>
     public class RazorViewEngine: IViewEngine
     {
-        const string LayoutPattern = @"@\{Layout=""([_a-zA-Z\/\.\%0-9].*)"";\}";
-        const string IncludePattern = @"@Include\(""([_a-zA-Z\/\.\%0-9].*)""\)";
-        const string InputPattern = @"@Input\(""([_a-zA-Z\/\.\%0-9]*)""\)";
+        const string LayoutPattern = @"@\{Layout=""([_a-zA-Z\/\-\.\%0-9].*)"";\}";
+        const string IncludePattern = @"@Include\(""([_a-zA-Z\/\-\.\%0-9].*)""\)";
+        const string InputPattern = @"@Input\(""([_a-zA-Z\/\-\.\%0-9]*)""\)";
 
         /// <summary>
         /// Resolves the template content.
