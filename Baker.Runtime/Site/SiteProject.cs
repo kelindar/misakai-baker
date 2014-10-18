@@ -109,7 +109,7 @@ namespace Baker
 
             // Assign a provider
             project.Provider = new DiskAssetProvider(path);
-            project.ViewEngine = new RazorViewEngine();
+            project.ViewEngine = new RazorViewEngine(project);
 
 
 

@@ -20,6 +20,23 @@ namespace Baker
         public static readonly string Name = "_config.yaml";
 
         /// <summary>
+        /// Constructs a default config.
+        /// </summary>
+        public SiteConfig()
+        {
+            this.Usings = new List<string>();
+            this.Usings.Add("System.IO");
+            this.Usings.Add("System.IO.Compression");
+            this.Usings.Add("System.Net");
+            this.Usings.Add("System.Web");
+            this.Usings.Add("System.Collections.Generic");
+            this.Usings.Add("System.Collections.Specialized");
+            this.Usings.Add("System.Linq");
+            this.Usings.Add("System.Text");
+            this.Usings.Add("System.Diagnostics");
+        }
+
+        /// <summary>
         /// The directory where Baker will write files.
         /// </summary>
         [DefaultValue("_site")]
@@ -38,6 +55,11 @@ namespace Baker
         /// source directory.
         /// </summary>
         public List<string> Exclude { get; set; }
+
+        /// <summary>
+        /// The list of default usings to provide to the view engine
+        /// </summary>
+        public List<string> Usings { get; set; }
 
         /// <summary>
         /// Listen on the given port.

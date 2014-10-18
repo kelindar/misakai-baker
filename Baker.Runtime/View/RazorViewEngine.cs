@@ -16,15 +16,30 @@ namespace Baker.View
     /// </summary>
     public class RazorViewEngine: IViewEngine
     {
-        const string LayoutPattern = @"@\{Layout=""([_a-zA-Z\/\-\.\%0-9].*)"";\}";
-        const string IncludePattern = @"@Include\(""([_a-zA-Z\/\-\.\%0-9].*)""\)";
-        const string InputPattern = @"@Input\(""([_a-zA-Z\/\-\.\%0-9]*)""\)";
-
-        /// <summary>
-        /// Resolves the template content.
-        /// </summary>
+        // Fields
+        private readonly SiteProject Project;
         private readonly ConcurrentDictionary<string, string> Cache =
             new ConcurrentDictionary<string, string>();
+
+        // Constants
+        private const string LayoutPattern = @"@\{Layout=""([_a-zA-Z\/\-\.\%0-9].*)"";\}";
+        private const string IncludePattern = @"@Include\(""([_a-zA-Z\/\-\.\%0-9].*)""\)";
+        private const string InputPattern = @"@Input\(""([_a-zA-Z\/\-\.\%0-9]*)""\)";
+        private readonly string[] DefaultUsings = new string[]{
+            "System",
+            "Baker",
+            "Baker.Text"
+        };
+
+        /// <summary>
+        /// Constructs a view engine.
+        /// </summary>
+        /// <param name="project">The project that the view engine belongs to.</param>
+        public RazorViewEngine(SiteProject project)
+        {
+            this.Project = project;
+        }
+
 
         /// <summary>
         /// Gets or adds a view from the cache.
@@ -61,7 +76,9 @@ namespace Baker.View
         {
             // Create the template with the specified layout
             var headers = input.Meta;
-            var content = "@{Layout=\"" + layout + "\";}" +
+            var content = 
+                "@{Layout=\"" + layout + "\";}" + Environment.NewLine +
+                this.GetUsings() + Environment.NewLine +
                 input.Content.AsString();
 
             // Using a new scope, avoiding state sharing problems that way
@@ -76,6 +93,20 @@ namespace Baker.View
                     service.Parse(content, headers, null, null)
                     );
             }
+        }
+
+        /// <summary>
+        /// Gets the complete usings list.
+        /// </summary>
+        /// <returns>The complete usings list.</returns>
+        private string GetUsings()
+        {
+            // Create usings
+            var usings = DefaultUsings
+                .Union(Project.Configuration.Usings)
+                .Select(a => "@using " + a)
+                .Aggregate((a, b) => a + Environment.NewLine + b);
+            return usings;
         }
 
         private void ProcessContent(string content, TemplateService service, dynamic model)
