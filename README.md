@@ -3,7 +3,9 @@ Misakai Baker
 
 The aim of this project is to write a flexible and extensible static website generator for C# / .Net people.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/h89p713jb1fkuthv?svg=true)](https://ci.appveyor.com/project/Kelindar/misakai-baker)
+* Build status: [![Build status](https://ci.appveyor.com/api/projects/status/h89p713jb1fkuthv?svg=true)](https://ci.appveyor.com/project/Kelindar/misakai-baker)
+* Build binaries: [misakai-baker.zip](http://pub.misakai.com/Baker/bin/misakai-baker.zip)
+
 
 Features
 ========
@@ -20,16 +22,17 @@ Usage
 =====
 
 In order to build the final project with all optimizations on:
----
-Baker.exe bake c:\Project
----
+
+```
+Baker.exe --bake c:\Project
+```
 
 
-In order to launch and serve the static website in a in-process webserver, use 'serve' command. This will watch any modifications you make to the files and auto-update and reload your browser for you. 
-The default port is 8080, so please open a browser on 127.0.0.1:8080 once you started.
----
-Baker.exe serve c:\Project
----
+In order to launch and serve the static website in a in-process webserver, use 'serve' command. This will watch any modifications you make to the files and auto-update and reload your browser for you. The default port is 8080, so please open a browser on 127.0.0.1:8080 once you started.
+
+```
+Baker.exe --serve c:\Project
+```
 
 Planned Features
 ================
