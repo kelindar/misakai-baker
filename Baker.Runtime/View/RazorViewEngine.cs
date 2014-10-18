@@ -54,7 +54,10 @@ namespace Baker.View
                 .RelativeName
                 .Replace(input.Extension, String.Empty)
                 .Replace(@"\", @"/");
-            var content = input.Content.AsString();
+
+            // Attach usings too
+            var content = this.GetUsings() + Environment.NewLine + 
+                input.Content.AsString();
 
             Tracing.Info("Template", cacheName);
 
@@ -76,9 +79,9 @@ namespace Baker.View
         {
             // Create the template with the specified layout
             var headers = input.Meta;
-            var content = 
-                "@{Layout=\"" + layout + "\";}" + Environment.NewLine +
+            var content =
                 this.GetUsings() + Environment.NewLine +
+                "@{Layout=\"" + layout + "\";}" + Environment.NewLine +
                 input.Content.AsString();
 
             // Using a new scope, avoiding state sharing problems that way
