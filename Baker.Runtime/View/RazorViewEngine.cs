@@ -16,6 +16,9 @@ namespace Baker.View
     /// </summary>
     public class RazorViewEngine: IViewEngine
     {
+        const string LayoutPattern = @"@\{Layout=""([_a-zA-Z\/\.\%0-9].*)"";\}";
+        const string IncludePattern = @"@Include\(""([_a-zA-Z\/\.\%0-9].*)""\)";
+        const string InputPattern = @"@Input\(""([_a-zA-Z\/\.\%0-9]*)""\)";
 
         /// <summary>
         /// Resolves the template content.
@@ -77,15 +80,12 @@ namespace Baker.View
 
         private void ProcessContent(string content, TemplateService service, dynamic model)
         {
-            const string layoutPattern = @"@\{Layout=""((?s).*)"";\}";
-            const string includePattern = @"@Include\(""((?s).*)""\)";
-
             // recursively process the Layout
-            foreach (Match match in Regex.Matches(content, layoutPattern, RegexOptions.IgnoreCase))
+            foreach (Match match in Regex.Matches(content, LayoutPattern, RegexOptions.IgnoreCase))
                 ProcessSubContent(match, service, model);
 
             // recursively process the @Includes
-            foreach (Match match in Regex.Matches(content, includePattern, RegexOptions.IgnoreCase))
+            foreach (Match match in Regex.Matches(content, IncludePattern, RegexOptions.IgnoreCase))
                 ProcessSubContent(match, service, model);
         }
 
@@ -110,8 +110,7 @@ namespace Baker.View
         private string ProcessInputs(string content)
         {
             // recursively process the @Inputs
-            const string inputPattern = @"@Input\(""((?s).*)""\)";
-            foreach (Match match in Regex.Matches(content, inputPattern, RegexOptions.IgnoreCase))
+            foreach (Match match in Regex.Matches(content, InputPattern, RegexOptions.IgnoreCase))
             {
                 // Get from the cache
                 var subName = match.Groups[1].Value; 
