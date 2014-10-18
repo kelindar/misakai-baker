@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -13,8 +14,34 @@ namespace Baker
     {
         static void Main(string[] args)
         {
+            var options = new Options();
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                try
+                {
+                    if (options.Bake != null)
+                    {
+                        // Bake is requested
+                        SiteProject.Bake(options.Bake);
+                    }
+                    else if (options.Serve != null)
+                    {
+                        // Serve is requested
+                        SiteProject.Serve(options.Serve);
+                    }
+                    else if (Debugger.IsAttached)
+                    {
+                        // Under debugger, just serve
+                        SiteProject.Serve(@"..\..\..\Test\");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Tracing.Error("Baker", ex.Message);
+                }
 
-            SiteProject.Taste(@"..\..\..\Test\");
+            }
         }
+            
     }
 }

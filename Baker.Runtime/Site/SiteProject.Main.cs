@@ -112,7 +112,7 @@ namespace Baker
         /// Spins a in-process webserver.
         /// </summary>
         /// <param name="path"></param>
-        public static void Taste(string path)
+        public static void Serve(string path)
         {
             // Load the project and fetch the files
             using (var project = SiteProject.FromDisk(path))
