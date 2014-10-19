@@ -1,0 +1,25 @@
+@if (IsSectionDefined("TwoColumn"))
+{
+<section class="section swatch-white-red has-top">
+    <div class="decor-top">
+        <svg class="decor" height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 100 L100 0 L100 100" stroke-width="0"></path>
+        </svg>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6  text-default">
+                <p>
+                    <img src="/img/custom-icon-spike.png" alt="blog-fullwidth" width="550" height="450" class="aligncenter size-full wp-image-3362">
+                </p>
+            </div>
+            <div class="col-md-6  text-default">
+                <h2 class="super hairline bordered-header margin-top">Development Cycle</h2>
+                <p class=" padding-top">
+                    @RenderSection("TwoColumn")
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+}

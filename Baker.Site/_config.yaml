@@ -1,0 +1,14 @@
+destination: _site
+index-document: index.html
+exclude: 
+usings:
+- System.IO
+- System.IO.Compression
+- System.Net
+- System.Web
+- System.Collections.Generic
+- System.Collections.Specialized
+- System.Linq
+- System.Text
+- System.Diagnostics
+port: 8080

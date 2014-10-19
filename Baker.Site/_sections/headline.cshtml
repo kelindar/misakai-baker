@@ -1,0 +1,27 @@
+@if (IsSectionDefined("Headline"))
+{
+<section class="section swatch-@Model.swatch">
+    <div class="container">
+        <header class="section-header ">
+            <h1 class="headline hyper hairline">@Model.headline</h1>
+        </header>
+    </div>
+</section>
+<section class="section swatch-@Model.swatch">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6  text-default">
+                <h2 class="super hairline bordered-header margin-top">@Model.subheadline</h2>
+                <p class="lead padding-top">
+                    @RenderSection("Headline")
+                </p>
+            </div>
+            <div class="col-md-6  text-default">
+                <p>
+                    <img class="aligncenter size-full wp-image-3365" alt="blog-normal" src="/img/custom-icon-imac-normal-blog.png" width="550" height="450">
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+}
