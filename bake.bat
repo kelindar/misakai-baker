@@ -1,1 +1,1 @@
-Baker.exe --bake Baker\
+Baker\bin\Debug\Baker.exe --bake Baker.Site\
