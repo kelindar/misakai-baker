@@ -1,0 +1,1 @@
+Baker\bin\Debug\Baker.exe --bake Baker.Site\

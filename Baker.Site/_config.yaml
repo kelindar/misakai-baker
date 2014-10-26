@@ -1,0 +1,4 @@
+destination: _site
+index-document: index.html
+exclude: 
+port: 8080

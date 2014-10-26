@@ -1,0 +1,54 @@
+@if (IsSectionDefined("Features"))
+{
+   dynamic features = Model.features;
+
+<section class="section swatch-@Model.swatchalt has-top">
+
+    <div class="decor-top">
+        <svg class="decor" height="100%" preserveaspectratio="none" version="1.1" viewbox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0 L100 100 L0 100" stroke-width="0"></path>
+        </svg>
+    </div>
+    <div class="container">
+        <header class="section-header underline">
+            <h1 class="headline super hairline">Features</h1>
+            <p class="">@RenderSection("Features")</p>
+        </header>
+        <div class="row">
+            <ul class="list-unstyled row box-list ">
+                <li class="col-md-3 text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay=".0s">
+                    <div class="box-round">
+                    <img class="svg-inject" src="@features[0].img" alt="a clock" data-animation="" />
+                    </div>
+                    <h3 class="text-center ">@features[0].title</h3>
+                    <p class="text-center">@features[0].text</p>
+                </li>
+
+                <li class="col-md-3 text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay=".3s">
+                    <div class="box-round">
+                    <img class="svg-inject" src="@features[1].img" alt="a clock" data-animation="" />
+                    </div>
+                    <h3 class="text-center ">@features[1].title</h3>
+                    <p class="text-center">@features[1].text</p>
+                </li>
+
+                <li class="col-md-3 text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay=".6s">
+                    <div class="box-round">
+                    <img class="svg-inject" src="@features[2].img" alt="a clock" data-animation="" />
+                    </div>
+                    <h3 class="text-center ">@features[2].title</h3>
+                    <p class="text-center">@features[2].text</p>
+                </li>
+                
+                <li class="col-md-3 text-center os-animation" data-os-animation="fadeInUp" data-os-animation-delay=".9s">
+                    <div class="box-round">
+                    <img class="svg-inject" src="@features[3].img" alt="a clock" data-animation="" />
+                    </div>
+                    <h3 class="text-center ">@features[3].title</h3>
+                    <p class="text-center">@features[3].text</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+}

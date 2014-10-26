@@ -17,7 +17,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
-_site/
+Test/_site/
 packages/
 
 # Roslyn cache directories
