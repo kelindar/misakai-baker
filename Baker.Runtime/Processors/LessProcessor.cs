@@ -28,6 +28,18 @@ namespace Baker.Processors
             var directory = Directory.GetCurrentDirectory();
             try
             {
+                // Select the files we should compile
+                var compile = input.Project.Configuration.Less;
+                if(compile == null || compile.Count == 0 || !compile.Any(c => input.RelativeName.EndsWith(c)))
+                {
+                    // Return processed output
+                    return AssetOutputFile.Create(
+                        from: input,
+                        content: String.Empty,
+                        extension: "css"
+                        );
+                }
+
                 // Get the content
                 var content = input.Content.AsString();
 

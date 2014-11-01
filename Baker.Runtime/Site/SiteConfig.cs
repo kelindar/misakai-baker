@@ -34,6 +34,9 @@ namespace Baker
             this.Usings.Add("System.Linq");
             this.Usings.Add("System.Text");
             this.Usings.Add("System.Diagnostics");
+
+            this.Less = new List<string>();
+            this.Less.Add("style.less");
         }
 
         /// <summary>
@@ -60,6 +63,12 @@ namespace Baker
         /// The list of default usings to provide to the view engine
         /// </summary>
         public List<string> Usings { get; set; }
+
+        /// <summary>
+        /// The list of less files to compile.
+        /// </summary>
+        [YamlAlias("less")]
+        public List<string> Less { get; set; }
 
         /// <summary>
         /// Listen on the given port.
