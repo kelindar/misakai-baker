@@ -1,0 +1,13 @@
+@base: #f938ab;
+ 
+@import "mixins.less";
+
+.box {
+  color: saturate(@base, 5%);
+  border-color: lighten(@base, 30%);
+  div { .box-shadow(0 0 5px, 30%) }
+}
+
+.box {
+    .border-radius(20px);
+} 

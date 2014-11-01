@@ -43,7 +43,8 @@ namespace Baker
                 .Export();
 
             // Optimize & copy everything
-            FileOptimizer.Default
+            StyleProcessor.Default
+                .Next(FileOptimizer.Default)
                 .On(files.Except(DefaultExclude))
                 .Export();
 
@@ -72,7 +73,8 @@ namespace Baker
                 .Export();
 
             // Copy everything
-            FileCopier.Default
+            StyleProcessor.Default
+                .Next(FileCopier.Default)
                 .On(files.Except(DefaultExclude))
                 .Export();
 

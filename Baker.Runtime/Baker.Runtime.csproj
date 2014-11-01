@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\AssetHeader.cs" />
+    <Compile Include="Processors\StyleProcessor.cs" />
     <Compile Include="Processors\FileOptimizer.cs" />
     <Compile Include="Processors\FileCopier.cs" />
     <Compile Include="Processors\LessProcessor.cs" />

@@ -50,6 +50,10 @@ namespace Baker
                 if (this.RelativeName.StartsWith("_"))
                     return;
 
+                // Do not export empty files
+                if (this.CachedContent.Length == 0)
+                    return;
+
                 // Create the destination
                 var destination = new FileInfo(
                     Path.Combine(this.VirtualDirectory.FullName, this.Project.Configuration.Destination,this.RelativeName)
@@ -61,8 +65,6 @@ namespace Baker
 
                 //if (!destination.StartsWith("_site"))
                 //    throw new InvalidOperationException("Unable to write the file, can only write to the '_site' directory.");
-
-                
 
                 // Write the file to the appropriate location
                 File.WriteAllBytes(destination.FullName, this.CachedContent);

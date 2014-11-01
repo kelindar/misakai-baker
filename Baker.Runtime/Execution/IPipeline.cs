@@ -193,7 +193,14 @@ namespace Baker
                     MaxDegreeOfParallelism = DegreeOfParallelism,
                     TaskScheduler = Pipeline.Scheduler
                 };
-                Parallel.ForEach(_beginningPipeline.On(source, cancellationToken), options, item => output.Add(_lastStageFunc(item)));
+                Parallel.ForEach(_beginningPipeline.On(source, cancellationToken), options, item => {
+                    if (item == null)
+                        return;
+
+                    var o = _lastStageFunc(item);
+                    if(o != null)
+                        output.Add(o);
+                });
             }
         }
     }

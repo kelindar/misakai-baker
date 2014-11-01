@@ -33,18 +33,19 @@ namespace Baker.Processors
 
                 // Set the directory path for our less processor, so we can
                 // use relative paths in the .less files 
-                Directory.SetCurrentDirectory(input.Project.Directory.FullName);
+                Directory.SetCurrentDirectory(input.Directory.FullName);
 
                 // Return processed output
                 return AssetOutputFile.Create(
                     from: input,
-                    content: Less.Parse(content)
+                    content: Less.Parse(content),
+                    extension: "css"
                     );
             }
             catch(Exception ex)
             {
                 // We didn't manage to create anything
-                Tracing.Error("Header", ex);
+                Tracing.Error("Less", ex);
                 return null;
             }
             finally
