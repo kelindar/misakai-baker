@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 namespace Baker
 {
@@ -45,7 +46,18 @@ namespace Baker
         /// <param name="ex"></param>
         public static void Error(string category, Exception ex)
         {
-            Error(category, ex.Message);
+            Console.Write(category + ": ");
+            var color = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write(ex.Message);
+
+            // Which file wasn't found?
+            if(ex is FileNotFoundException)
+                Console.Write(" File: " + (ex as FileNotFoundException).FileName);
+
+            // Done printing out the error
+            Console.WriteLine();
+            Console.ForegroundColor = color;
         }
     }
 }
