@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="dotless.Core">
+      <HintPath>..\packages\dotless.1.4.1.0\lib\dotless.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="nQuant.Core">
       <HintPath>..\packages\nQuant.1.0.3\Lib\net40\nQuant.Core.dll</HintPath>
@@ -59,6 +62,7 @@
     <Compile Include="Execution\AssetHeader.cs" />
     <Compile Include="Processors\FileOptimizer.cs" />
     <Compile Include="Processors\FileCopier.cs" />
+    <Compile Include="Processors\LessProcessor.cs" />
     <Compile Include="Processors\LayoutProcessor.cs" />
     <Compile Include="View\RazorViewEngine.cs" />
     <Compile Include="Site\SiteHandler.cs" />
