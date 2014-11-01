@@ -5,6 +5,9 @@ using System.Text;
 using Baker.Text;
 using dotless.Core;
 using System.IO;
+using dotless.Core.configuration;
+using dotless.Core.Importers;
+using dotless.Core.Input;
 
 namespace Baker.Processors
 {
@@ -25,7 +28,6 @@ namespace Baker.Processors
         /// <returns>The output of the process.</returns>
         public override IAssetFile Process(IAssetFile input)
         {
-            var directory = Directory.GetCurrentDirectory();
             try
             {
                 // Select the files we should compile
@@ -43,14 +45,19 @@ namespace Baker.Processors
                 // Get the content
                 var content = input.Content.AsString();
 
-                // Set the directory path for our less processor, so we can
-                // use relative paths in the .less files 
-                Directory.SetCurrentDirectory(input.Directory.FullName);
+                // Get the LESS engine
+                var engine = new LessEngine();
+                var importer = (Importer)engine.Parser.Importer;
+                var freader  = (FileReader)importer.FileReader;
+                freader.PathResolver = new LessPathResolver(input.FullName);
+
+                // Transform to CSS
+                var output = engine.TransformToCss(content, input.FullName);
 
                 // Return processed output
                 return AssetOutputFile.Create(
                     from: input,
-                    content: Less.Parse(content),
+                    content: output,
                     extension: "css"
                     );
             }
@@ -60,12 +67,40 @@ namespace Baker.Processors
                 Tracing.Error("Less", ex);
                 return null;
             }
-            finally
-            {
-                // Set the directory to whatever it was previously
-                Directory.SetCurrentDirectory(directory);
-            }
+
         }
 
+        #region LessResolver
+        /// <summary>
+        /// Represents a path resolver for LESS @import statements.
+        /// </summary>
+        internal class LessPathResolver : IPathResolver
+        {
+            private readonly FileInfo FilePath;
+
+            /// <summary>
+            /// Constructs a new path resolver for less files.
+            /// </summary>
+            /// <param name="file">The parent file.</param>
+            public LessPathResolver(string file)
+            {
+                this.FilePath = new FileInfo(file);
+            }
+
+            /// <summary>
+            /// Gets the full path for an @import statement.
+            /// </summary>
+            /// <param name="path">The path specified in the import statement.</param>
+            /// <returns>The resolved path.</returns>
+            public string GetFullPath(string path)
+            {
+                return Path.GetFullPath(
+                    Path.Combine(FilePath.Directory.FullName, path)
+                    );
+            }
+        }
+        #endregion
+
     }
+
 }
