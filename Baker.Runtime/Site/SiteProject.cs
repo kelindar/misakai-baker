@@ -35,6 +35,15 @@ namespace Baker
         }
 
         /// <summary>
+        /// Gets the language of the project.
+        /// </summary>
+        public string Language
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Gets the site configuration.
         /// </summary>
         public SiteConfig Configuration
@@ -46,7 +55,16 @@ namespace Baker
         /// <summary>
         /// Gets the asset provider for this project.
         /// </summary>
-        public IAssetProvider Provider
+        public IAssetProvider Assets
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Gets the asset provider for this project.
+        /// </summary>
+        public ITranslationProvider Translations
         {
             get;
             private set;
@@ -78,7 +96,7 @@ namespace Baker
         /// </summary>
         /// <param name="path">The path to the configuration file.</param>
         /// <returns>The project.</returns>
-        public static SiteProject FromDisk(DirectoryInfo path)
+        public static SiteProject FromDisk(DirectoryInfo path, string language = "all")
         {
             if (!path.Exists)
                 throw new FileNotFoundException("Unable to load the project, as the directory specified does not exist. Directory: " + path.FullName);
@@ -88,6 +106,7 @@ namespace Baker
 
             // Set the path where the project lives
             project.Directory = path;
+            project.Language = language;
 
             try
             {
@@ -102,13 +121,17 @@ namespace Baker
 
             if (project.Configuration == null)
             {
+                // Create a new configuration
                 Tracing.Info("Project", "Configuration file not found, creating a new one.");
                 project.Configuration = new SiteConfig();
                 project.Configuration.ToFile(Path.Combine(path.FullName, SiteConfig.Name));
             }
 
+            // Load translation provider
+            project.Translations = new TranslationProvider(project);
+
             // Assign a provider
-            project.Provider = new DiskAssetProvider(path);
+            project.Assets = new DiskAssetProvider(path);
             project.ViewEngine = new RazorViewEngine(project);
 
 
@@ -148,6 +171,20 @@ namespace Baker
         #endregion
     }
 
+    /// <summary>
+    /// Represents the build mode.
+    /// </summary>
+    public enum BakeMode
+    {
+        /// <summary>
+        /// Fast mode is used for 'serve' without any optimizations.
+        /// </summary>
+        Fast = 0,
 
+        /// <summary>
+        /// Takes longer to bake, but optimizes everything.
+        /// </summary>
+        Optimized = 1
+    }
 
 }

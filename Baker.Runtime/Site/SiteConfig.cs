@@ -37,6 +37,9 @@ namespace Baker
 
             this.Less = new List<string>();
             this.Less.Add("style.less");
+
+            this.Languages = new List<string>();
+            this.Languages.Add("all");
         }
 
         /// <summary>
@@ -69,6 +72,12 @@ namespace Baker
         /// </summary>
         [YamlAlias("less")]
         public List<string> Less { get; set; }
+
+        /// <summary>
+        /// The list of languages that the site should be translated to.
+        /// </summary>
+        [YamlAlias("languages")]
+        public List<string> Languages { get; set; }
 
         /// <summary>
         /// Listen on the given port.

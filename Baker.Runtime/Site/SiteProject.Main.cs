@@ -26,9 +26,19 @@ namespace Baker
         /// <summary>
         /// The main pipeline for project processing.
         /// </summary>
-        /// <param name="files">The files that should be processed.</param>
-        public void Process(IEnumerable<IAssetFile> files)
+        public void Bake(BakeMode mode)
         {
+            // Since we bake, clean up the directory
+            Tracing.Info("Bake", "Building the website...");
+            var output = new DirectoryInfo(
+                Path.Combine(this.Directory.FullName, this.Configuration.Destination)
+                );
+            if (output.Exists)
+                output.Delete(true);
+
+            // Fetch the files on disk
+            var files = this.Assets.Fetch(this);
+
             // Load all templates
             RazorProcessor.Default
                 .On(files.Only("*.cshtml"))
@@ -44,10 +54,16 @@ namespace Baker
 
             // Optimize & copy everything
             StyleProcessor.Default
-                .Next(FileOptimizer.Default)
+                .Next(mode == BakeMode.Fast 
+                    ? (IProcessor<IAssetFile, IAssetFile>) FileCopier.Default 
+                    : FileOptimizer.Default)
                 .On(files.Except(DefaultExclude))
                 .Export();
 
+            // We are processing that serially
+            foreach (var locale in files.Only("*.locale"))
+                LocaleProcessor.Default.Process(locale);
+            
         }
 
         /// <summary>
@@ -56,27 +72,8 @@ namespace Baker
         /// <param name="files">The files that should be processed.</param>
         public void Update()
         {
-            // Rescan files
-            var files = this.Provider.Fetch(this);
-
-            // Load all templates
-            RazorProcessor.Default
-                .On(files.Only("*.cshtml"))
-                .Export();
-
-            // Handle markup stuff
-            HeaderProcessor.Default
-                .Next(MarkdownProcessor.Default)
-                .Next(LayoutProcessor.Default)
-                .Next(HtmlMinifier.Default)
-                .On(files.Only("*.md"))
-                .Export();
-
-            // Copy everything
-            StyleProcessor.Default
-                .Next(FileCopier.Default)
-                .On(files.Except(DefaultExclude))
-                .Export();
+            // Bake in fast mode
+            this.Bake(BakeMode.Fast);
 
             // Last update changed
             this.LastUpdate = DateTime.Now.Ticks;
@@ -92,21 +89,8 @@ namespace Baker
             // Load the project and fetch the files
             using (var project = SiteProject.FromDisk(path))
             {
-                // Since we bake, clean up the directory
-                Tracing.Info("Bake", "Building the website...");
-                var output = new DirectoryInfo(
-                    Path.Combine(project.Directory.FullName, project.Configuration.Destination)
-                    );
-                if (output.Exists)
-                    output.Delete(true);
-
-                // Fetch the files on disk
-                var files = project
-                    .Provider
-                    .Fetch(project);
-
-                // Load all templates
-                project.Process(files);
+                // Bake the project
+                project.Bake(BakeMode.Optimized);
             }
         }
 

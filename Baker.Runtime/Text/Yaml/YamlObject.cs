@@ -109,8 +109,9 @@ namespace Baker.Text
                 .FirstOrDefault();
             if (file == null)
                 return null;
-   
-            using (var stream = new FileStream(file.FullName, FileMode.Open))
+
+            var content = File.ReadAllBytes(file.FullName);
+            using (var stream = new MemoryStream(content))
                 return FromStream<T>(stream);
 
         }

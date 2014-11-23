@@ -11,6 +11,11 @@ usings:
 - System.Linq
 - System.Text
 - System.Diagnostics
-less: 
+less:
 - style.less
+languages:
+- all
+- fr
+- es
+- nl
 port: 8080
