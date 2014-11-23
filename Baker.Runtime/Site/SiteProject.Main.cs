@@ -31,7 +31,7 @@ namespace Baker
             try
             {
                 // Since we bake, clean up the directory
-                Tracing.Info("Bake", "Building the website...");
+                Tracing.Info("Bake", "Building the website (" + this.Language + ") ...");
                 if (mode == BakeMode.Optimized)
                 {
                     // If we're baking, make sure everything is removed first

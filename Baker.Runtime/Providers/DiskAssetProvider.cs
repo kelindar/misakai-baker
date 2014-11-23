@@ -37,11 +37,15 @@ namespace Baker.Providers
         /// <returns>The enumerable set of assets.</returns>
         public override IEnumerable<IAssetFile> Fetch(SiteProject project)
         {
+            var skipDirectory = project.Configuration
+                .Destination
+                .Replace(project.Language, string.Empty);
+
             // Fetch and enumerate
             return Directory
                 .EnumerateFiles(this.Path.FullName, "*", SearchOption.AllDirectories)
                 .Select(f => new AssetInputFile(project, new FileInfo(f)))
-                .Except(project.Configuration.Destination + "*") 
+                .Except(skipDirectory + "*") 
                 .ToList();
         }
 

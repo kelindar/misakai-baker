@@ -113,13 +113,23 @@ namespace Baker.Text
                     // We have a file, read it
                     foreach (var line in File.ReadAllLines(localeFile))
                     {
-                        // Parse the line
-                        var splitIndex = line.IndexOf(':');
-                        var key = line.Substring(0, splitIndex).Trim() + ":" + language;
-                        var value = line.Substring(splitIndex + 1).TrimStart();
+                        if (String.IsNullOrWhiteSpace(line))
+                            continue; 
+                        try
+                        {
+                            // Parse the line
+                            var splitIndex = line.IndexOf(':');
+                            var key = line.Substring(0, splitIndex).Trim() + ":" + language;
+                            var value = line.Substring(splitIndex + 1).TrimStart();
 
-                        // Try to add it to the set
-                        this.TryAdd(key, language, value);
+                            // Try to add it to the set
+                            this.TryAdd(key, language, value);
+                        }
+                        catch (Exception ex)
+                        {
+                            Tracing.Error("Locale", ex + " Line: " + line);
+                        }
+
                     }
                 }
                 catch(Exception ex)
