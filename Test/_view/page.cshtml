@@ -3,6 +3,7 @@
 <head>
     @Input("_view/helpers")
     <title>@Model.title</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,9 +12,9 @@
         @RenderBody()
         
         <ul>
-        @foreach(var food in (List<string>)Model.foods)
+        @foreach(var item in (List<string>)Model.items)
         {
-            <li>@food</li>
+            <li>@item</li>
         }
         </ul>
 

@@ -46,12 +46,14 @@ namespace Baker
                 var files = this.Assets.Fetch(this);
 
                 // Load all templates
-                RazorProcessor.Default
+                TranslationProcessor.Default
+                    .Next(RazorProcessor.Default)
                     .On(files.Only("*.cshtml"))
                     .Export();
 
                 // Handle markup stuff
-                HeaderProcessor.Default
+                TranslationProcessor.Default
+                    .Next(HeaderProcessor.Default)
                     .Next(MarkdownProcessor.Default)
                     .Next(LayoutProcessor.Default)
                     .Next(HtmlMinifier.Default)

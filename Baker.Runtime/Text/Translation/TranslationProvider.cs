@@ -108,15 +108,15 @@ namespace Baker.Text
                     // If we don't have the file, create it
                     var localeFile = Path.Combine(this.LocalePath.FullName, language + ".locale");
                     if (!File.Exists(localeFile))
-                        File.WriteAllText(localeFile, String.Empty);
+                        File.WriteAllText(localeFile, String.Empty, Encoding.UTF8);
 
                     // We have a file, read it
                     foreach (var line in File.ReadAllLines(localeFile))
                     {
                         // Parse the line
                         var splitIndex = line.IndexOf(':');
-                        var key = line.Substring(0, splitIndex);
-                        var value = line.Substring(splitIndex).TrimStart();
+                        var key = line.Substring(0, splitIndex) + ":" + language;
+                        var value = line.Substring(splitIndex + 1).TrimStart();
 
                         // Try to add it to the set
                         this.TryAdd(key, language, value);
