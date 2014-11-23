@@ -6,6 +6,7 @@ using System.Text;
 using Baker.Text;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using System.IO;
 
 namespace Baker
 {
@@ -37,9 +38,6 @@ namespace Baker
 
             this.Less = new List<string>();
             this.Less.Add("style.less");
-
-            this.Languages = new List<string>();
-            this.Languages.Add("all");
         }
 
         /// <summary>
@@ -85,6 +83,38 @@ namespace Baker
         [DefaultValue(8080)]
         public int Port { get; set; }
 
+        #region Loading Members
+        /// <summary>
+        /// Loads a site configuration from a particular path.
+        /// </summary>
+        /// <param name="path">The path to look for _config.yaml file.</param>
+        /// <returns>The loaded or created configuration file.</returns>
+        public static SiteConfig Read(DirectoryInfo path)
+        {
+            SiteConfig configuration = null;
+            try
+            {
+                // Get the configuration file
+                configuration = YamlObject.FromSearch<SiteConfig>(path, SiteConfig.Name, SearchOption.TopDirectoryOnly);
+            }
+            catch
+            {
+                // Unable to read
+                Tracing.Error("Config", "Configuration file " + SiteConfig.Name + " is invalid.");
+            }
+
+            if (configuration == null)
+            {
+                // Create a new configuration
+                Tracing.Info("Project", "Configuration file not found, creating a new one.");
+                configuration = new SiteConfig();
+                configuration.ToFile(Path.Combine(path.FullName, SiteConfig.Name));
+            }
+
+            return configuration;
+
+        }
+        #endregion
 
 
     }

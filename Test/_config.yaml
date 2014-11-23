@@ -14,8 +14,6 @@ usings:
 less:
 - style.less
 languages:
-- all
+- en
 - fr
-- es
-- nl
 port: 8080

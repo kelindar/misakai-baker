@@ -96,7 +96,7 @@ namespace Baker
         /// </summary>
         /// <param name="path">The path to the configuration file.</param>
         /// <returns>The project.</returns>
-        public static SiteProject FromDisk(DirectoryInfo path, string language = "all")
+        public static SiteProject FromDisk(DirectoryInfo path, string language = null)
         {
             if (!path.Exists)
                 throw new FileNotFoundException("Unable to load the project, as the directory specified does not exist. Directory: " + path.FullName);
@@ -106,26 +106,21 @@ namespace Baker
 
             // Set the path where the project lives
             project.Directory = path;
+            project.Configuration = SiteConfig.Read(path);
+
+            // If we don't have the language specified, find the first language
+            // in the configuration file.
+            if (language == null)
+                language = project.Configuration.Languages.FirstOrDefault();
+            if (language == null)
+                language = "default";
+
+            // Set the destination to the sub-language destination
+            if (language != "default")
+                project.Configuration.Destination = Path.Combine(project.Configuration.Destination, language);
+
+            // Set the language of the project
             project.Language = language;
-
-            try
-            {
-                // Get the configuration file
-                project.Configuration = YamlObject.FromSearch<SiteConfig>(path, SiteConfig.Name, SearchOption.TopDirectoryOnly);
-            }
-            catch
-            {
-                // Unable to read
-                Tracing.Error("Config", "Configuration file " + SiteConfig.Name + " is invalid.");
-            }
-
-            if (project.Configuration == null)
-            {
-                // Create a new configuration
-                Tracing.Info("Project", "Configuration file not found, creating a new one.");
-                project.Configuration = new SiteConfig();
-                project.Configuration.ToFile(Path.Combine(path.FullName, SiteConfig.Name));
-            }
 
             // Load translation provider
             project.Translations = new TranslationProvider(project);
@@ -133,8 +128,6 @@ namespace Baker
             // Assign a provider
             project.Assets = new DiskAssetProvider(path);
             project.ViewEngine = new RazorViewEngine(project);
-
-
 
             // We have a project!
             return project;

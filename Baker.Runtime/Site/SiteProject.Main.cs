@@ -28,42 +28,50 @@ namespace Baker
         /// </summary>
         public void Bake(BakeMode mode)
         {
-            // Since we bake, clean up the directory
-            Tracing.Info("Bake", "Building the website...");
-            var output = new DirectoryInfo(
-                Path.Combine(this.Directory.FullName, this.Configuration.Destination)
-                );
-            if (output.Exists)
-                output.Delete(true);
+            try
+            {
+                // Since we bake, clean up the directory
+                Tracing.Info("Bake", "Building the website...");
+                if (mode == BakeMode.Optimized)
+                {
+                    // If we're baking, make sure everything is removed first
+                    var output = new DirectoryInfo(
+                        Path.Combine(this.Directory.FullName, this.Configuration.Destination)
+                        );
+                    if (output.Exists)
+                        output.Delete(true);
+                }
 
-            // Fetch the files on disk
-            var files = this.Assets.Fetch(this);
+                // Fetch the files on disk
+                var files = this.Assets.Fetch(this);
 
-            // Load all templates
-            RazorProcessor.Default
-                .On(files.Only("*.cshtml"))
-                .Export();
+                // Load all templates
+                RazorProcessor.Default
+                    .On(files.Only("*.cshtml"))
+                    .Export();
 
-            // Handle markup stuff
-            HeaderProcessor.Default
-                .Next(MarkdownProcessor.Default)
-                .Next(LayoutProcessor.Default)
-                .Next(HtmlMinifier.Default)
-                .On(files.Only("*.md"))
-                .Export();
+                // Handle markup stuff
+                HeaderProcessor.Default
+                    .Next(MarkdownProcessor.Default)
+                    .Next(LayoutProcessor.Default)
+                    .Next(HtmlMinifier.Default)
+                    .On(files.Only("*.md"))
+                    .Export();
 
-            // Optimize & copy everything
-            StyleProcessor.Default
-                .Next(mode == BakeMode.Fast 
-                    ? (IProcessor<IAssetFile, IAssetFile>) FileCopier.Default 
-                    : FileOptimizer.Default)
-                .On(files.Except(DefaultExclude))
-                .Export();
+                // Optimize & copy everything
+                StyleProcessor.Default
+                    .Next(mode == BakeMode.Fast
+                        ? (IProcessor<IAssetFile, IAssetFile>)FileCopier.Default
+                        : FileOptimizer.Default)
+                    .On(files.Except(DefaultExclude))
+                    .Export();
 
-            // We are processing that serially
-            foreach (var locale in files.Only("*.locale"))
-                LocaleProcessor.Default.Process(locale);
-            
+            }
+            catch (Exception ex)
+            {
+                // Catch all errors during bake
+                Tracing.Error("Bake", ex);
+            }
         }
 
         /// <summary>
@@ -84,21 +92,30 @@ namespace Baker
         /// Builds the project.
         /// </summary>
         /// <param name="path"></param>
-        public static void Bake(string path)
+        public static void Bake(DirectoryInfo path)
         {
-            // Load the project and fetch the files
-            using (var project = SiteProject.FromDisk(path))
+            // Read the configuration file at destination
+            var config = SiteConfig.Read(path);
+            if (config.Languages.Count == 0)
+                config.Languages.Add("default");
+
+            foreach(var language in config.Languages)
             {
-                // Bake the project
-                project.Bake(BakeMode.Optimized);
+                // Load the project and fetch the files
+                using (var project = SiteProject.FromDisk(path, language))
+                {
+                    // Bake the project
+                    project.Bake(BakeMode.Optimized);
+                }
             }
+
         }
 
         /// <summary>
         /// Spins a in-process webserver.
         /// </summary>
         /// <param name="path"></param>
-        public static void Serve(string path)
+        public static void Serve(DirectoryInfo path)
         {
             // Load the project and fetch the files
             using (var project = SiteProject.FromDisk(path))

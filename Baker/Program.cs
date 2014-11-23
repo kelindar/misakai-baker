@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Baker.Processors;
 using Baker.Providers;
+using System.IO;
 
 namespace Baker
 {
@@ -25,17 +26,17 @@ namespace Baker
                     if (options.Bake != null)
                     {
                         // Bake is requested
-                        SiteProject.Bake(options.Bake);
+                        SiteProject.Bake(new DirectoryInfo(options.Bake));
                     }
                     else if (options.Serve != null)
                     {
                         // Serve is requested
-                        SiteProject.Serve(options.Serve);
+                        SiteProject.Serve(new DirectoryInfo(options.Serve));
                     }
                     else if (Debugger.IsAttached)
                     {
                         // Under debugger, just serve
-                        SiteProject.Serve(@"..\..\..\Test\");
+                        SiteProject.Serve(new DirectoryInfo(@"..\..\..\Test\"));
                     }
                 }
                 catch(Exception ex)
