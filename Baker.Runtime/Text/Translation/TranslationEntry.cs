@@ -9,7 +9,7 @@ namespace Baker.Text
     /// <summary>
     /// Represents a translation entry.
     /// </summary>
-    public class TranslationEntry
+    internal class TranslationEntry
     {
         /// <summary>
         /// Construcs a translation entry

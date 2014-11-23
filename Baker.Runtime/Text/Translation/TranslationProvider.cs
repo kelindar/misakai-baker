@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,8 +13,9 @@ namespace Baker.Text
     /// </summary>
     public class TranslationProvider : ITranslationProvider
     {
-        private readonly HashSet<TranslationEntry> Items =
-            new HashSet<TranslationEntry>();
+        #region Constructors
+        private readonly ConcurrentDictionary<string, TranslationEntry> Map =
+            new ConcurrentDictionary<string, TranslationEntry>();
         private readonly SiteProject Project;
         private readonly DirectoryInfo LocalePath;
 
@@ -35,18 +37,28 @@ namespace Baker.Text
             this.LoadOrCreate();
         }
 
-        #region Query Members
+        /// <summary>
+        /// Gets the key used for storage internally.
+        /// </summary>
+        private string GetKey(string key)
+        {
+            return key + ":" + this.Project.Language;
+        }
+        #endregion
+
+        #region Public Members
         /// <summary>
         /// Attempts to get a translation for a particular language.
         /// </summary>
         /// <param name="key">The key of the translation entry.</param>
         /// <returns>The translation entry found, otherwise null.</returns>
-        public TranslationEntry Get(string key)
+        public string Get(string key)
         {
             // Find by key & language
-            return this.Items
-                .Where(t => t.Key == key && t.Language == this.Project.Language)
-                .FirstOrDefault();
+            TranslationEntry entry;
+            if(this.Map.TryGetValue(this.GetKey(key), out entry))
+                return entry.Value;
+            return null;
         }
 
 
@@ -58,22 +70,18 @@ namespace Baker.Text
         /// <param name="language">The language of the translation entry.</param>
         /// <param name="defaultValue">The default value to add.</param>
         /// <returns>Translation entry found or added.</returns>
-        public TranslationEntry GetOrAdd(string key, string defaultValue = null)
+        public string GetOrAdd(string key, string defaultValue = null)
         {
-            // Attempt to fetch the entry first
-            var entry = this.Get(key);
-            if(entry == null)
-            {
-                // Create and add a new entry to the set
-                entry = new TranslationEntry(key, this.Project.Language, defaultValue);
-                this.Items.Add(entry);
-            }
+            // Get or add internally
+            var entry = this.Map.GetOrAdd(
+                this.GetKey(key), 
+                (k) => new TranslationEntry(key, this.Project.Language, defaultValue)
+                );
 
-            return entry;
+            // Return the value
+            return entry.Value;
         }
-        #endregion
 
-        #region Add/Update Members
         /// <summary>
         /// Attempts to add a value to the set. Only adds if no value exists already.
         /// </summary>
@@ -83,17 +91,8 @@ namespace Baker.Text
         /// <returns>Whether the entry was added successfully or not.</returns>
         public bool TryAdd(string key, string language, string value)
         {
-            // Attempt to fetch the entry first
-            var entry = this.Items
-                .Where(t => t.Key == key && t.Language == language)
-                .FirstOrDefault();
-            if (entry != null)
-                return false;
-            
-            // Create and add a new entry to the set
-            entry = new TranslationEntry(key, language, value);
-            this.Items.Add(entry);
-            return true;
+            // Try add internally
+            return this.Map.TryAdd(key, new TranslationEntry(key, language, value));
         }
         #endregion
 

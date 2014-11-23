@@ -10,7 +10,7 @@ namespace Baker.Text
         /// </summary>
         /// <param name="key">The key of the translation entry.</param>
         /// <returns>The translation entry found, otherwise null.</returns>
-        TranslationEntry Get(string key);
+        string Get(string key);
 
         /// <summary>
         /// Attempts to get a translation for a particular language. Adds it to 
@@ -19,7 +19,7 @@ namespace Baker.Text
         /// <param name="key">The key of the translation entry.</param>
         /// <param name="defaultValue">The default value to add.</param>
         /// <returns>Translation entry found or added.</returns>
-        TranslationEntry GetOrAdd(string key, string defaultValue = null);
+        string GetOrAdd(string key, string defaultValue = null);
 
                 /// <summary>
         /// Attempts to add a value to the set. Only adds if no value exists already.
