@@ -2,19 +2,22 @@
 layout: _view/page
 title: Welcome to Misakai Baker
 items:
-    - $t1
-    - $t2
-    - Auto-reload is supported!
-    - More stuff here
-
+ - Combine Markdown and Razor view engine, layouts, sections and helpers
+ - Jekyll-like headers for the model
+ - HTML minifier, CSS minifier, JavaScript minifier and PNG optimizer
+ - Pipeline model for processors and various combinations
+ - Yaml configuration file
+ - Integrated web server for testing
+ - File watcher and live reload for development cycle updates
+ - Integration localization
 ---
 
 # Misakai Baker
-Welcome to our static generator tool, hope you'll enjoy and contribute!
+$page-welcome
 
 
 @section Well
 {
-    Here's some content in a conditional section. 
+    $multi-language *[$lang-1](/)*, *[$lang-2](/fr/)*
 }
 

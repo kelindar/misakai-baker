@@ -1,4 +1,6 @@
 ﻿lang-1: english
 lang-2: français
+page-welcome: Welcome to the test page for our static website  generator tool. I hope you'll enjoy it and contribute! 
+multi-language: Misakai.Baker also supports translations, check it out: 
 t1: this is a translated string
 t2: and this is another translated string!

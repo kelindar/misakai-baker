@@ -115,7 +115,7 @@ namespace Baker.Text
                     {
                         // Parse the line
                         var splitIndex = line.IndexOf(':');
-                        var key = line.Substring(0, splitIndex) + ":" + language;
+                        var key = line.Substring(0, splitIndex).Trim() + ":" + language;
                         var value = line.Substring(splitIndex + 1).TrimStart();
 
                         // Try to add it to the set

@@ -1,4 +1,7 @@
 ﻿lang-1: english
 lang-2: français
+page-title: Test Page
+page-welcome: Bienvenue sur la page de test de notre générateur de site web statique. J'espère que ça vous plait et que vous allez y contribuer!
+multi-language: Misakai.Baker supporte aussi les traductions, regardez ça: 
 t1: ça c'est une chaîne de caractères traduite
 t2: et ça est une autre chaîne de caractères traduite!
