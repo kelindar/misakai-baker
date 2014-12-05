@@ -26,7 +26,7 @@ namespace Baker
                     if (options.Bake != null)
                     {
                         // Bake is requested
-                        SiteProject.Bake(new DirectoryInfo(options.Bake));
+                        SiteProject.Bake(new DirectoryInfo(options.Bake), BakeMode.Optimized);
                     }
                     else if (options.Serve != null)
                     {

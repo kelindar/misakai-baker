@@ -94,12 +94,15 @@ namespace Baker
         /// Builds the project.
         /// </summary>
         /// <param name="path"></param>
-        public static void Bake(DirectoryInfo path)
+        /// <param name="mode"></param>
+        public static void Bake(DirectoryInfo path, BakeMode mode)
         {
             // Read the configuration file at destination
             var config = SiteConfig.Read(path);
             if (config.Languages.Count == 0)
                 config.Languages.Add("default");
+
+            Tracing.Info("Bake", "Baking: " + path.FullName);
 
             foreach(var language in config.Languages)
             {
@@ -107,7 +110,7 @@ namespace Baker
                 using (var project = SiteProject.FromDisk(path, language))
                 {
                     // Bake the project
-                    project.Bake(BakeMode.Optimized);
+                    project.Bake(mode);
                 }
             }
 
@@ -123,7 +126,7 @@ namespace Baker
             using (var project = SiteProject.FromDisk(path))
             {
                 // Rebuid everything first
-                SiteProject.Bake(path);
+                SiteProject.Bake(path, BakeMode.Fast);
 
                 // Register the handler
                 Service.Http.Register(new SiteHandler(project));
