@@ -62,7 +62,6 @@ namespace Baker
 
                 // Optimize & copy everything
                 StyleProcessor.Default
-                    .Next(TypeScriptProcessor.Default)
                     .Next(mode == BakeMode.Fast
                         ? (IProcessor<IAssetFile, IAssetFile>)FileCopier.Default
                         : FileOptimizer.Default)

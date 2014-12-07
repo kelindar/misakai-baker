@@ -27,6 +27,10 @@ namespace Baker.Processors
         {
             try
             {
+                // !!!!!!!!
+                // NOT USED
+                // !!!!!!!!
+
                 // Only processes .ts files
                 if (input.Extension != ".ts")
                     return input;
@@ -61,18 +65,4 @@ namespace Baker.Processors
 
     }
 
-    internal class BakerConsole
-    {
-        public BakerConsole() { }
-
-        public void Print(string iString)
-        {
-            Tracing.Info("TypeScript", iString);
-        }
-
-        public void log(string iString)
-        {
-            Tracing.Info("TypeScript", iString);
-        }
-    }
 }
