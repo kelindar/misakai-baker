@@ -38,29 +38,34 @@
     <Reference Include="nQuant.Core">
       <HintPath>..\packages\nQuant.1.0.3\Lib\net40\nQuant.Core.dll</HintPath>
     </Reference>
-    <Reference Include="RazorEngine">
-      <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
+    <Reference Include="RazorEngine, Version=3.5.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RazorEngine.3.4.2\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
-    <Reference Include="Spike.Runtime">
-      <HintPath>..\packages\SpikeEngine.2.5.5394\lib\Spike.Runtime.dll</HintPath>
+    <Reference Include="Spike.Runtime, Version=2.5.5442.28630, Culture=neutral, PublicKeyToken=bbbae3b375c299b6, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SpikeEngine.2.5.5442.28630\lib\Spike.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="YamlDotNet">
-      <HintPath>..\packages\YamlDotNet.3.3.0\lib\net35\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=3.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\YamlDotNet.3.3.1\lib\net35\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Execution\AssetHeader.cs" />
+    <Compile Include="Processors\TypeScriptProcessor.cs" />
     <Compile Include="Processors\TranslationProcessor.cs" />
     <Compile Include="Processors\StyleProcessor.cs" />
     <Compile Include="Processors\FileOptimizer.cs" />
@@ -70,6 +75,7 @@
     <Compile Include="Text\Translation\ITranslationProvider.cs" />
     <Compile Include="Text\Translation\TranslationProvider.cs" />
     <Compile Include="Text\Translation\TranslationEntry.cs" />
+    <Compile Include="Text\TypeScript\TypeScript.cs" />
     <Compile Include="View\RazorViewEngine.cs" />
     <Compile Include="Site\SiteHandler.cs" />
     <Compile Include="Site\SiteProject.Main.cs" />
@@ -227,7 +233,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="web.config" />
   </ItemGroup>
   <ItemGroup>
