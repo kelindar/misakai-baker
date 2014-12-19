@@ -73,7 +73,7 @@
     <Compile Include="Processors\LessProcessor.cs" />
     <Compile Include="Processors\LayoutProcessor.cs" />
     <Compile Include="Text\Translation\ITranslationProvider.cs" />
-    <Compile Include="Text\Translation\TranslationProvider.cs" />
+    <Compile Include="Providers\TranslationProvider.cs" />
     <Compile Include="Text\Translation\TranslationEntry.cs" />
     <Compile Include="Text\TypeScript\TypeScript.cs" />
     <Compile Include="View\RazorViewEngine.cs" />

@@ -110,7 +110,7 @@ namespace Baker
 
             // If we don't have the language specified, find the first language
             // in the configuration file.
-            if (language == null)
+            if (language == null && project.Configuration.Languages != null)
                 language = project.Configuration.Languages.FirstOrDefault();
             if (language == null)
                 language = "default";

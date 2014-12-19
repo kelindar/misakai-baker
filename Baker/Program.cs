@@ -42,6 +42,7 @@ namespace Baker
                 catch(Exception ex)
                 {
                     Tracing.Error("Baker", ex.Message);
+                    Tracing.Error("Baker", ex.StackTrace);
                 }
 
             }

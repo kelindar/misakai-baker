@@ -38,6 +38,9 @@ namespace Baker
 
             this.Less = new List<string>();
             this.Less.Add("style.less");
+
+            //this.Languages = new List<string>();
+            //this.Languages.Add("default");
         }
 
         /// <summary>

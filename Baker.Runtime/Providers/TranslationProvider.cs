@@ -101,6 +101,12 @@ namespace Baker.Text
         /// </summary>
         private void LoadOrCreate()
         {
+            if (Project.Configuration.Languages == null)
+            {
+                Project.Configuration.Languages = new List<string>();
+                Project.Configuration.Languages.Add("default");
+            }
+
             foreach(var language in this.Project.Configuration.Languages)
             {
                 try

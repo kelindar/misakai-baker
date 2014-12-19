@@ -99,8 +99,12 @@ namespace Baker
         {
             // Read the configuration file at destination
             var config = SiteConfig.Read(path);
-            if (config.Languages.Count == 0)
+            if (config.Languages == null || config.Languages.Count == 0)
+            {
+                // Make sure we have a default language
+                config.Languages = new List<string>();
                 config.Languages.Add("default");
+            }
 
             Tracing.Info("Bake", "Baking: " + path.FullName);
 
