@@ -4,7 +4,7 @@ Misakai Baker
 The aim of this project is to write a flexible and extensible static website generator for C# / .Net people.
 
 * Build status: [![Build status](https://ci.appveyor.com/api/projects/status/h89p713jb1fkuthv?svg=true)](https://ci.appveyor.com/project/Kelindar/misakai-baker)
-* Build binaries: [misakai-baker.zip](http://pub.misakai.com/Baker/bin/misakai-baker.zip)
+* Build binaries: [misakai-baker.zip](https://s3.amazonaws.com/app.misakai.com/public/Baker/bin/misakai-baker.zip)
 * Website [http://baker.misakai.com](http://baker.misakai.com)
 
 
