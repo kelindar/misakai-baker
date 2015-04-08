@@ -18,8 +18,8 @@ namespace Baker
     /// </summary>
     public sealed partial class SiteProject
     {
-        // Default extensions to exclude from being copied to the content
-        private readonly string[] DefaultExclude = new string[]{
+        // Default extensions to exclude from being copied to the content.
+        private readonly string[] DefaultExclude = new string[] {
             "*.tmp", "*.cshtml", "*.md", "*_config.yaml", "*~*"
         };
 
@@ -30,48 +30,69 @@ namespace Baker
         {
             try
             {
-                // Since we bake, clean up the directory
-                Tracing.Info("Bake", "Building the website (" + this.Language + ") ...");
+                Tracing.Info("Bake", String.Format("Building the website ({0}) ...", this.Language));
+
+				// If we're baking in Optimized mode, make sure the destination and all subdirectories and files are removed first.
                 if (mode == BakeMode.Optimized)
                 {
-                    // If we're baking, make sure everything is removed first
-                    var output = new DirectoryInfo(
+                    DirectoryInfo output = new DirectoryInfo(
                         Path.Combine(this.Directory.FullName, this.Configuration.Destination)
-                        );
-                    if (output.Exists)
-                        output.Delete(true);
+                    );
+
+					if (output.Exists)
+					{
+						output.Delete(true);
+					}
                 }
 
-                // Fetch the files on disk
-                var files = this.Assets.Fetch(this);
+                // Fetch all the files from the source directory.
+                IEnumerable<IAssetFile> files = this.Assets.Fetch(this);
+
+				// Exclude folders and files listed in the _config.yaml excludes array.
+				// Note: These excluded folders and files are only excluded from processing not from being copied.
+				string[] excludes = new String[] { };
+
+				List<string> exclude = this.Configuration.Exclude;
+				if (exclude != null && exclude.Count > 0)
+				{
+					excludes = exclude.ToArray();
+				}
+
+				IEnumerable<IAssetFile> filesExceptExcludes = files.Except(excludes);
 
                 // Load all templates
                 TranslationProcessor.Default
                     .Next(RazorProcessor.Default)
-                    .On(files.Only("*.cshtml"))
+					.On(filesExceptExcludes.Only("*.cshtml"))
                     .Export();
 
-                // Handle markup stuff
+                // Handle markup processing
                 TranslationProcessor.Default
                     .Next(HeaderProcessor.Default)
                     .Next(MarkdownProcessor.Default)
                     .Next(LayoutProcessor.Default)
                     .Next(HtmlMinifier.Default)
-                    .On(files.Only("*.md"))
+					.On(filesExceptExcludes.Only("*.md"))
                     .Export();
 
-                // Optimize & copy everything
-                StyleProcessor.Default
-                    .Next(mode == BakeMode.Fast
-                        ? (IProcessor<IAssetFile, IAssetFile>)FileCopier.Default
-                        : FileOptimizer.Default)
-                    .On(files.Except(DefaultExclude))
-                    .Export();
+				// If we're NOT baking in Fast mode, optimize the files.
+				if (mode != BakeMode.Fast)
+				{
+					StyleProcessor.Default
+						.Next(FileOptimizer.Default)
+						.On(filesExceptExcludes.Except(DefaultExclude))
+						.Export();
+				}
 
+				// Copy files
+				TranslationProcessor.Default
+					.Next((IProcessor<IAssetFile, IAssetFile>)FileCopier.Default)
+					.On(files.Except(DefaultExclude))
+					.Export();
             }
             catch (Exception ex)
             {
-                // Catch all errors during bake
+                // Catch all errors that occured during bake.
                 Tracing.Error("Bake", ex);
             }
         }
@@ -117,7 +138,6 @@ namespace Baker
                     project.Bake(mode);
                 }
             }
-
         }
 
         /// <summary>
@@ -141,9 +161,5 @@ namespace Baker
                     );
             }
         }
-
     }
-
-
-
 }
